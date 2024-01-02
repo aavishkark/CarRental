@@ -1,0 +1,26 @@
+.updateContainer{
+    display: flex;
+    width: 50%;
+    margin: auto;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+.updateContainer select{
+  border: 1px solid black;
+  padding: 5px;
+}
+.datePicker{
+    border: 1px solid black;
+    padding: 5px;
+}
+.updateContainer button{
+    border: 1px solid black;
+    background-color: black;
+    padding: 5px;
+    color: white;
+    border-radius: 2px;
+}
+.topHeading{
+    font-size: x-large;
+    font-weight: bolder;
+}

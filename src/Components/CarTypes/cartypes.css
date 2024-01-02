@@ -1,0 +1,34 @@
+/* .cardimg{
+    width: 100%;
+}
+.cardinfo{
+    display: flex;
+    flex-direction: column; 
+    background-color: aliceblue;
+    font-family: monospace;
+    font-size: medium;
+}
+.carddiv{
+    width: 33%;
+    margin: 10px;
+    cursor: pointer;
+    background-color: aliceblue;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+}
+.container{
+    display:flex;
+    width:90%;
+    margin:auto;
+    justify-content:space-between;
+}
+.cardinfo{
+    align-items: flex-start;
+}
+.container{
+    margin-top: 20px;
+} */
+
+
+  

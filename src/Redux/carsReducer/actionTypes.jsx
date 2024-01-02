@@ -1,0 +1,6 @@
+export const GET_CARS_REQ="GET_CARS_REQ";
+export const GET_CARS_SUCCESS="GET_CARS_SUCCESS";
+export const GET_CARS_FAIL="GET_CARS_FAIL";
+export const GET_CARS_BY_CITY="GET_CARS_BY_CITY"
+export const SET_USER_CITY="SET_USER_CITY";
+export const SAVE_SINGLE_CAR="SAVE_SINGLE_CAR"
