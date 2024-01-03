@@ -3,15 +3,20 @@ import { POST_LOGIN_FAILURE, POST_LOGIN_REQ, POST_LOGIN_SUCCESS, POST_LOGOUT_REQ
 
 export const postLogin=(data)=>(dispatch)=>{
    dispatch({type:POST_LOGIN_REQ})
-   return axios.get(`https://mock-server-rentride.onrender.com/users?email=${data.email}&password=${data.password}`)
+   console.log(data)
+   return axios.post(`https://erin-tasty-barnacle.cyclic.app/users/login`,{
+    email:data.email,
+    password:data.password
+   })
    .then((res)=>{
-    if(res.data.length===1){
-        localStorage.setItem('rentaride',true)
-        let data=JSON.stringify(res.data)
-        localStorage.setItem('user',data)
-        localStorage.setItem('rentaridecity',res.data[0].city)
-        dispatch(saveUserData({data}))
-        dispatch({type:POST_LOGIN_SUCCESS,payload:res.data})
+    if(res.data.msg==='Login Successfull'){
+        console.log(res.data)
+         localStorage.setItem('rentaride',true)
+         let data=JSON.stringify(res.data.user)
+         localStorage.setItem('user',data)
+         localStorage.setItem('rentaridecity',res.data.user.city)
+         dispatch(saveUserData({data}))
+        dispatch({type:POST_LOGIN_SUCCESS,payload:res.data.user})
     }
     else{
         localStorage.setItem('rentaride',false)
@@ -20,6 +25,7 @@ export const postLogin=(data)=>(dispatch)=>{
     }
    })
    .catch((err)=>{
+    console.log(err)
      localStorage.setItem('rentaride',false)
      dispatch({type:POST_LOGIN_FAILURE,payload:{msg:err}})
    })

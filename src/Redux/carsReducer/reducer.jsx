@@ -5,7 +5,7 @@ const initialState={
   isError:false,
   cars:[],
   city:"Mumbai",
-  singleCar:{}
+  singleCar:{},
 }
 export const carsReducer=(state=initialState,{type,payload})=>{
     switch(type){

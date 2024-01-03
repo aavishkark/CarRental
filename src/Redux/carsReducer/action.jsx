@@ -1,9 +1,9 @@
 import axios from "axios"
 import { GET_CARS_BY_CITY, GET_CARS_FAIL, GET_CARS_REQ, GET_CARS_SUCCESS } from "./actionTypes"
-
+import { useSelector } from "react-redux"
 export const getCars=(data)=>(dispatch)=>{
     dispatch({type:GET_CARS_REQ})
-    axios.get(`https://mock-server-rentride.onrender.com/cars`)
+    axios.get(`https://erin-tasty-barnacle.cyclic.app/cars`)
      .then((res)=>{
         dispatch({type:GET_CARS_SUCCESS,payload:res.data})
      })
@@ -32,7 +32,8 @@ export const getCarsByCity=(data)=>(dispatch)=>{
       finalParams._order=data.pricesort
    }
    dispatch({type:GET_CARS_REQ})
-   axios.get(`https://mock-server-rentride.onrender.com/cars`,
+   console.log(finalParams)
+   axios.get(`https://erin-tasty-barnacle.cyclic.app/cars`,
    {params: finalParams})
    .then((res)=>{
       dispatch({type:GET_CARS_BY_CITY,payload:res.data})
@@ -41,4 +42,31 @@ export const getCarsByCity=(data)=>(dispatch)=>{
       dispatch({type:GET_CARS_FAIL})
       console.log(err)
    })
+}
+
+export const addCarToLikes=(data)=>(dispatch)=>{
+   
+    axios.get(`https://erin-tasty-barnacle.cyclic.app/users/singleuser/${data.user._id}`)
+    .then((res)=>{
+      const fav=res.data.user.favourite
+      let flag=false
+      fav.forEach((e)=>{
+         if(e==data.car._id){
+          flag=true
+         } 
+      })
+      if(!flag){
+         fav.push(data.car._id)
+         axios.patch(`https://erin-tasty-barnacle.cyclic.app/users/update/${data.user._id}`,{favourite:fav})
+         .then((res)=>{
+            console.log(res)
+         })
+         .catch((err)=>{
+            console.log(err)
+         })
+      }
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
 }

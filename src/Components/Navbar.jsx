@@ -31,7 +31,7 @@ const Navbar = () => {
           <a className="nav-link" href="/cars" style={{color:"white"}} >Cars</a>
         </li>
         {auth===true ?<li className="nav-item">
-          <a className="nav-link" href="/profile" style={{color:"white"}}><AccountCircleIcon/>{`${user[0].username}`}</a>
+          <a className="nav-link" href="/profile" style={{color:"white"}}><AccountCircleIcon/>{`${user.username}`}</a>
         </li>:""}
         {auth===true ?<li className="nav-item">
           <a className="nav-link" href="/" style={{color:"white"}} onClick={handleLogout}>Logout</a>

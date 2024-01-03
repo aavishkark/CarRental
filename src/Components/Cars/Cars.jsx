@@ -6,7 +6,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import './cars.css'
 import { useDispatch, useSelector } from 'react-redux';
 import { SAVE_SINGLE_CAR, SET_USER_CITY } from '../../Redux/carsReducer/actionTypes';
-import { getCarsByCity } from '../../Redux/carsReducer/action';
+import { addCarToLikes, getCarsByCity } from '../../Redux/carsReducer/action';
 import { Grid, GridItem } from '@chakra-ui/react';
 import {
     Box,
@@ -77,6 +77,15 @@ const dispatch=useDispatch()
       const handletype=(e)=>{
         settype(e.target.value)
       }
+      const handleLike=(car)=>{
+        dispatch(addCarToLikes({car,user}))
+        toast({
+            description: "Added To Your Favourites",
+            status: 'success',
+            duration: 9000,
+            isClosable: true,
+          })
+      }
       const toast = useToast()
   return (
     <div className='main'>
@@ -117,7 +126,7 @@ const dispatch=useDispatch()
       </Button>
     </Box>
     <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)', xl: 'repeat(4, 1fr)' }} gap={4}>
-      {cars&&cars.map((car,index) => (
+      {cars.Cars&&cars.Cars.map((car,index) => (
         <GridItem key={car.id} >
           <div key={car.name} className="col mb-4">
                     <div className="card h-100">
@@ -137,15 +146,7 @@ const dispatch=useDispatch()
                       <strong>Rating:</strong> {car.rating}
                     </p>
                     <button className='btn btn-primary bookbtn' onClick={() => handleCardClick(car, currentIndex + index)}>Book</button>
-                    <button       onClick={() =>
-        toast({
-          description: "Added To Your Favourites",
-          status: 'success',
-          duration: 9000,
-          isClosable: true,
-        })
-      }
-><FavoriteIcon/></button>
+                    <button onClick={() =>handleLike(car)}><FavoriteIcon/></button>
                     
                   </div>
                       </div>

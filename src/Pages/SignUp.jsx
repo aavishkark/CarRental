@@ -17,6 +17,9 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import MenuItem from '@mui/material/MenuItem';
+import { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 const defaultTheme = createTheme();
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -35,15 +38,18 @@ export default function SignUp() {
         'Lucknow',
       ];
       const [open, setOpen] = React.useState(false);
-
-
+      const [success,setsuccess]=useState()
+      const navigate=useNavigate()
   const handleClose = () => {
     setOpen(false);
+    if(success===true){
+         navigate('/login')
+    }
   };
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+    axios.post(`https://erin-tasty-barnacle.cyclic.app/users/register`,{
       email: data.get('email'),
       password: data.get('password'),
       username:data.get('username'),
@@ -51,8 +57,16 @@ export default function SignUp() {
       city:data.get('city'),
       activeRides: [],
       cart: []
-    });
-    setOpen(true);
+    })
+    .then((res)=>{
+      setsuccess(true)
+      setOpen(true);
+    })
+    .catch((err)=>{
+      setsuccess(false)
+      setOpen(true);
+    })
+  
   };
 
   return (
@@ -122,12 +136,6 @@ export default function SignUp() {
                   autoComplete="new-password"
                 />
               </Grid>
-              {/* <Grid item xs={12}>
-                <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
-                  label="Ubscribe to [rom"
-                />
-              </Grid> */}
             </Grid>
             <Button
               type="submit"
@@ -146,7 +154,7 @@ export default function SignUp() {
             </Grid>
           </Box>
         </Box>
-        <Dialog
+      {!success?<Dialog
         open={open}
         TransitionComponent={Transition}
         keepMounted
@@ -163,7 +171,23 @@ export default function SignUp() {
           <Button onClick={handleClose}>Sign Up</Button>
           <Button onClick={handleClose}>Try Again</Button>
         </DialogActions>
-      </Dialog>
+      </Dialog>:<Dialog
+        open={open}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={handleClose}
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <DialogTitle>{"Success"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-slide-description">
+            Registration Successful
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Login</Button>
+        </DialogActions>
+      </Dialog>}
       </Container>
     </ThemeProvider>
   );
