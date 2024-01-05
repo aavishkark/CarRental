@@ -19,7 +19,7 @@ import {
   } from '@chakra-ui/react';
 import './billing.css';
 import { useNavigate } from 'react-router-dom';
-
+import axios from 'axios';
 const BillingPage = () => {
    // const car=useSelector((store)=>{return store.carsReducer.singleCar})
    const { isOpen, onOpen, onClose } = useDisclosure();
@@ -27,12 +27,30 @@ const BillingPage = () => {
    const navigate=useNavigate()
     const car=JSON.parse(localStorage.getItem('rentaridesinglecar'))
     const dates=JSON.parse(localStorage.getItem('startenddates'))
-    const start = new Date(dates.start);
-    const end = new Date(dates.end);
-    const differenceInMs = end - start;
-    const differenceInDays = Math.ceil(differenceInMs / (24 * 60 * 60 * 1000));
+    const date1 = dates.start
+    const date2 = dates.end
+    const parts1 = date1.split('/');
+    const parts2 = date2.split('/');
+  
+    const dateObject1 = new Date(parts1[2], parts1[1] - 1, parts1[0]);
+    const dateObject2 = new Date(parts2[2], parts2[1] - 1, parts2[0]);
+    const timeDiff = dateObject2 - dateObject1;
+
+    // Convert milliseconds to days
+    const daysDiff = timeDiff / (1000 * 3600 * 24);
+  
+    // Return the difference in days
+    console.log(Math.abs(Math.round(daysDiff)))
     const handlePay=()=>{
         onOpen()
+        axios.patch(`https://erin-tasty-barnacle.cyclic.app/cars/updatecar/${car._id}`,
+        {dates:[dates]})
+        .then((res)=>{
+           console.log(res)
+        })
+        .catch((err)=>{
+          console.log(err)
+        })
     }
     const handleClose=()=>{
         onClose()
@@ -62,11 +80,11 @@ const BillingPage = () => {
                       </div>
                     </div>
                   </div>
-       {`start date:${start}
-        End date:${end}
-        total days:${differenceInDays+1}
-        total:${differenceInDays+1}*${car.pricePerDay}
-        To pay:${(differenceInDays+1)*(car.pricePerDay)}
+       {`start date:${date1}
+        End date:${date2}
+        total days:${Math.abs(Math.round(daysDiff))+1}
+        total:${Math.abs(Math.round(daysDiff))+1}*${car.pricePerDay}
+        To pay:${(Math.abs(Math.round(daysDiff))+1)*(car.pricePerDay)}
         `}
     </div>
     <MDBContainer fluid className="py-5 gradient-custom">

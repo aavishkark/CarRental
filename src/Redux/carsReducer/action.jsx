@@ -3,7 +3,7 @@ import { GET_CARS_BY_CITY, GET_CARS_FAIL, GET_CARS_REQ, GET_CARS_SUCCESS } from 
 import { useSelector } from "react-redux"
 export const getCars=(data)=>(dispatch)=>{
     dispatch({type:GET_CARS_REQ})
-    axios.get(`https://erin-tasty-barnacle.cyclic.app/cars`)
+    axios.get(`https://erin-tasty-barnacle.cyclic.app/cars/allcars`)
      .then((res)=>{
         dispatch({type:GET_CARS_SUCCESS,payload:res.data})
      })
@@ -16,8 +16,7 @@ export const getCarsByCity=(data)=>(dispatch)=>{
    const finalParams = {}
    finalParams.city=data.city
    if(data.pricesort!=null &&  data.typeesort==null){
-      finalParams._sort="pricePerDay"
-      finalParams._order=data.pricesort
+      finalParams.order=data.pricesort
    }
    else if(data.pricesort==null &&  data.typeesort!=null){
       if(data.typeesort!="ALL"){
@@ -28,13 +27,11 @@ export const getCarsByCity=(data)=>(dispatch)=>{
       if(data.typeesort!="ALL"){
          finalParams.type2=data.typeesort
       }
-      finalParams._sort="pricePerDay"
-      finalParams._order=data.pricesort
+      finalParams.order=data.pricesort
    }
    dispatch({type:GET_CARS_REQ})
-   console.log(finalParams)
-   axios.get(`https://erin-tasty-barnacle.cyclic.app/cars`,
-   {params: finalParams})
+   axios.get(`https://erin-tasty-barnacle.cyclic.app/cars/filtercars`,
+   {headers:finalParams})
    .then((res)=>{
       dispatch({type:GET_CARS_BY_CITY,payload:res.data})
    })
@@ -45,7 +42,6 @@ export const getCarsByCity=(data)=>(dispatch)=>{
 }
 
 export const addCarToLikes=(data)=>(dispatch)=>{
-   
     axios.get(`https://erin-tasty-barnacle.cyclic.app/users/singleuser/${data.user._id}`)
     .then((res)=>{
       const fav=res.data.user.favourite

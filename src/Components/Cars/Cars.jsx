@@ -12,14 +12,28 @@ import {
     Box,
     Select
   } from '@chakra-ui/react';
-  import { Button, Modal, Image } from 'react-bootstrap';
+import { Button, Modal, Image } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import axios from 'axios';
 import { useToast } from '@chakra-ui/react'
 const Cars = () => {
 const dispatch=useDispatch()
-  const [value, setvalue] = useState(`${new Date().getDate()}/${new Date().getMonth()}/${new Date().getFullYear()}`);
+let month
+if(new Date().getMonth()+1>9){
+  month=new Date().getMonth()+1
+}
+else{
+  month=""+new Date().getMonth()+1
+}
+let day
+if(new Date().getDate()>9){
+day=new Date().getDate()
+}
+else{
+  day="0"+new Date().getDate()
+}
+  const [start, setstart] = useState(`${day}/${month}/${new Date().getFullYear()}`);
+  const [end,setend] = useState(`${day}/${month}/${new Date().getFullYear()}`)
   const [city,setcity]=useState(localStorage.getItem('rentaridecity')) 
   const [user,setuser]=useState(JSON.parse(localStorage.getItem('user')))
   const [selectedCar, setSelectedCar] = useState(null);
@@ -41,7 +55,7 @@ const dispatch=useDispatch()
         'Jaipur',
         'Lucknow',
       ];
-      localStorage.setItem('rentaridedate',value)
+      localStorage.setItem('rentaridedate',start)
       const cars=useSelector((store)=>{return store.carsReducer.cars})
       const navigate=useNavigate()
       useEffect(()=>{
@@ -53,9 +67,89 @@ const dispatch=useDispatch()
             localStorage.setItem('rentaridecity',e.target.value)
             setcity(e.target.value)
       }
-      const changeDate=(e)=>{
-       setvalue(`${e.getDate()}/${e.getMonth()+1}/${e.getFullYear()}`)
-       localStorage.setItem('rentaridedate',value)
+      const changeStartDate=(e)=>{
+        let startmonth
+        if(e.getMonth()+1>9){
+          startmonth=e.getMonth()+1
+        }
+        else{
+          startmonth=""+e.getMonth()+1
+        }
+        let startday
+        if(e.getDate()>9){
+          startday=e.getDate()
+        }
+        else{
+          startday="0"+e.getDate()
+        }
+        const parts1 = [startday,startmonth,e.getFullYear()]
+        const parts2= end.split('/')
+        const dateObject1 = new Date(parts1[2], parts1[1] - 1, parts1[0]);
+        const dateObject2 = new Date(parts2[2], parts2[1] - 1, parts2[0]);
+        const timeDiff = dateObject2 - dateObject1;
+        const daysDiff = (timeDiff / (1000 * 3600 * 24));
+        if(daysDiff<0){
+          toast({
+            description: "Start Day Should be Less Then End Day",
+            status: 'error',
+            duration: 9000,
+            isClosable: true,
+          })
+        }
+        if(daysDiff>7){
+          toast({
+            description: "You Can Rent A Car For Maximum One Week",
+            status: 'error',
+            duration: 9000,
+            isClosable: true,
+          })
+        }
+        if(daysDiff>0 && daysDiff<=7){
+          setstart(`${startday}/${startmonth}/${e.getFullYear()}`)
+          localStorage.setItem('rentaridestartdate',JSON.stringify(`${startday}/${startmonth}/${e.getFullYear()}`))
+        }
+      }
+      const changeEndDate=(e)=>{
+        let endmonth
+        if(e.getMonth()+1>9){
+          endmonth=e.getMonth()+1
+        }
+        else{
+          endmonth=""+e.getMonth()+1
+        }
+        let endday
+        if(e.getDate()>9){
+          endday=e.getDate()
+        }
+        else{
+          endday="0"+e.getDate()
+        }
+        const parts1 = start.split('/')
+        const parts2= [endday,endmonth,e.getFullYear()]
+        const dateObject1 = new Date(parts1[2], parts1[1] - 1, parts1[0]);
+        const dateObject2 = new Date(parts2[2], parts2[1] - 1, parts2[0]);
+        const timeDiff = dateObject2 - dateObject1;
+        const daysDiff = (timeDiff / (1000 * 3600 * 24));
+        if(daysDiff<0){
+          toast({
+            description: "End Day should be Greater Than Start Day",
+            status: 'error',
+            duration: 9000,
+            isClosable: true,
+          })
+        }
+        if(daysDiff>7){
+          toast({
+            description: "You Can Rent A Car For Maximum One Week",
+            status: 'error',
+            duration: 9000,
+            isClosable: true,
+          })
+        }
+        if(daysDiff>0 && daysDiff<=7){
+          setend(`${endday}/${endmonth}/${e.getFullYear()}`)
+          localStorage.setItem('rentarideenddate',JSON.stringify(`${endday}/${endmonth}/${e.getFullYear()}`))
+        }
       }
       const handleSubmit=()=>{
         dispatch(getCarsByCity({city,pricesort,typeesort}))
@@ -87,6 +181,15 @@ const dispatch=useDispatch()
           })
       }
       const toast = useToast()
+      console.log(cars)
+      cars.Cars&&cars.Cars.forEach((e)=>{
+        if(e.dates.length!=0){
+          console.log(start,end,e)
+          // e.dates.forEach((e)=>{
+            
+          // })
+        }
+      })
   return (
     <div className='main'>
     <Box display="flex" flexDirection={{ base: 'column', md: 'row' }} alignItems="center" mb={4}>
@@ -117,8 +220,15 @@ const dispatch=useDispatch()
       <DatePicker
         className='datePicker'
         minDate={new Date()}
-        placeholderText={value}
-        onChange={changeDate}
+        placeholderText={start}
+        onChange={changeStartDate}
+        mr={{ base: 0, md: 2 }}
+      />
+      <DatePicker
+        className='datePicker'
+        minDate={new Date()}
+        placeholderText={end}
+        onChange={changeEndDate}
         mr={{ base: 0, md: 2 }}
       />
       <Button onClick={handleSubmit} colorScheme="teal">
