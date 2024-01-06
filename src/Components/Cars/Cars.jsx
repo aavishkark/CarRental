@@ -60,7 +60,8 @@ else{
       const navigate=useNavigate()
       useEffect(()=>{
         dispatch(getCarsByCity({city,pricesort,typeesort}))
-        setfiltered(cars)
+        console.log(start)
+        setstart(JSON.parse(localStorage.getItem('rentaridestartdate')))
       },[flag])
       const changelocation=(e)=>{
             dispatch({type:SET_USER_CITY,payload:e.target.value})
@@ -82,32 +83,33 @@ else{
         else{
           startday="0"+e.getDate()
         }
-        const parts1 = [startday,startmonth,e.getFullYear()]
-        const parts2= end.split('/')
-        const dateObject1 = new Date(parts1[2], parts1[1] - 1, parts1[0]);
-        const dateObject2 = new Date(parts2[2], parts2[1] - 1, parts2[0]);
-        const timeDiff = dateObject2 - dateObject1;
-        const daysDiff = (timeDiff / (1000 * 3600 * 24));
-        if(daysDiff<0){
-          toast({
-            description: "Start Day Should be Less Then End Day",
-            status: 'error',
-            duration: 9000,
-            isClosable: true,
-          })
-        }
-        if(daysDiff>7){
-          toast({
-            description: "You Can Rent A Car For Maximum One Week",
-            status: 'error',
-            duration: 9000,
-            isClosable: true,
-          })
-        }
-        if(daysDiff>0 && daysDiff<=7){
-          setstart(`${startday}/${startmonth}/${e.getFullYear()}`)
+        // const parts1 = [startday,startmonth,e.getFullYear()]
+        // const parts2= end.split('/')
+        // const dateObject1 = new Date(parts1[2], parts1[1] - 1, parts1[0]);
+        // const dateObject2 = new Date(parts2[2], parts2[1] - 1, parts2[0]);
+        // const timeDiff = dateObject2 - dateObject1;
+        // const daysDiff = (timeDiff / (1000 * 3600 * 24));
+        // if(daysDiff<0){
+        //   toast({
+        //     description: "Start Day Should be Less Then End Day",
+        //     status: 'error',
+        //     duration: 9000,
+        //     isClosable: true,
+        //   })
+        // }
+        // if(daysDiff>7){
+        //   toast({
+        //     description: "You Can Rent A Car For Maximum One Week",
+        //     status: 'error',
+        //     duration: 9000,
+        //     isClosable: true,
+        //   })
+        // }
+       // if(daysDiff>0 && daysDiff<=7){
+         // setstart(`${startday}/${startmonth}/${e.getFullYear()}`)
           localStorage.setItem('rentaridestartdate',JSON.stringify(`${startday}/${startmonth}/${e.getFullYear()}`))
-        }
+         
+        //}
       }
       const changeEndDate=(e)=>{
         let endmonth
@@ -124,8 +126,36 @@ else{
         else{
           endday="0"+e.getDate()
         }
+        // const parts1 = start.split('/')
+        // const parts2= [endday,endmonth,e.getFullYear()]
+        // const dateObject1 = new Date(parts1[2], parts1[1] - 1, parts1[0]);
+        // const dateObject2 = new Date(parts2[2], parts2[1] - 1, parts2[0]);
+        // const timeDiff = dateObject2 - dateObject1;
+        // const daysDiff = (timeDiff / (1000 * 3600 * 24));
+        // if(daysDiff<0){
+        //   toast({
+        //     description: "End Day should be Greater Than Start Day",
+        //     status: 'error',
+        //     duration: 9000,
+        //     isClosable: true,
+        //   })
+        // }
+        // if(daysDiff>7){
+        //   toast({
+        //     description: "You Can Rent A Car For Maximum One Week",
+        //     status: 'error',
+        //     duration: 9000,
+        //     isClosable: true,
+        //   })
+        // }
+        //if(daysDiff>0 && daysDiff<=7){
+          setend(`${endday}/${endmonth}/${e.getFullYear()}`)
+          localStorage.setItem('rentarideenddate',JSON.stringify(`${endday}/${endmonth}/${e.getFullYear()}`))
+        //}
+      }
+      const handleSubmit=()=>{
         const parts1 = start.split('/')
-        const parts2= [endday,endmonth,e.getFullYear()]
+        const parts2= end.split('/')
         const dateObject1 = new Date(parts1[2], parts1[1] - 1, parts1[0]);
         const dateObject2 = new Date(parts2[2], parts2[1] - 1, parts2[0]);
         const timeDiff = dateObject2 - dateObject1;
@@ -146,14 +176,17 @@ else{
             isClosable: true,
           })
         }
-        if(daysDiff>0 && daysDiff<=7){
-          setend(`${endday}/${endmonth}/${e.getFullYear()}`)
-          localStorage.setItem('rentarideenddate',JSON.stringify(`${endday}/${endmonth}/${e.getFullYear()}`))
-        }
-      }
-      const handleSubmit=()=>{
+        if(daysDiff>=0 && daysDiff<=7){
+          toast({
+            description: "Update successfull",
+            status: 'success',
+            duration: 9000,
+            isClosable: true,
+          })
         dispatch(getCarsByCity({city,pricesort,typeesort}))
         flag.current=!flag
+        }
+       
       }
       const handleCardClick = (car, index) => {
         setSelectedCar(car);
@@ -181,15 +214,7 @@ else{
           })
       }
       const toast = useToast()
-      console.log(cars)
-      cars.Cars&&cars.Cars.forEach((e)=>{
-        if(e.dates.length!=0){
-          console.log(start,end,e)
-          // e.dates.forEach((e)=>{
-            
-          // })
-        }
-      })
+      console.log(start)
   return (
     <div className='main'>
     <Box display="flex" flexDirection={{ base: 'column', md: 'row' }} alignItems="center" mb={4}>
@@ -236,34 +261,83 @@ else{
       </Button>
     </Box>
     <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)', xl: 'repeat(4, 1fr)' }} gap={4}>
-      {cars.Cars&&cars.Cars.map((car,index) => (
-        <GridItem key={car.id} >
-          <div key={car.name} className="col mb-4">
-                    <div className="card h-100">
-                    <div className="card-body">
-                      <img src={car.photos} alt={car.name} className='card-img-top cardimg' />
-                  <div className='card-body cardinfo'>
-                    <p className='card-text'>
-                      <strong>City:</strong> {car.city}
-                    </p>
-                    <p className='card-text'>
-                      <strong>Car:</strong> {car.name}
-                    </p>
-                    <p className='card-text'>
-                      <strong>Price:</strong> {car.pricePerDay}/Day
-                    </p>
-                    <p className='card-text'>
-                      <strong>Rating:</strong> {car.rating}
-                    </p>
-                    <button className='btn btn-primary bookbtn' onClick={() => handleCardClick(car, currentIndex + index)}>Book</button>
-                    <button onClick={() =>handleLike(car)}><FavoriteIcon/></button>
-                    
-                  </div>
+      {cars.Cars&&cars.Cars.map((car,index) => {
+        let flag=false
+        if(car.dates.length!=0){
+          car.dates.forEach((c)=>{
+            const parseDate = (dateString) => {
+              const [day, month, year] = dateString.split('/');
+              return dateString.split('/');
+            }
+            let start1=parseDate(c.start)
+            let end1=parseDate(c.end)
+            let start2=parseDate(JSON.parse(localStorage.getItem('rentaridestartdate')))
+            let end2=parseDate(JSON.parse(localStorage.getItem('rentarideenddate')))
+            if(start1 <= end2 && end1 >= start2){
+              flag=true
+            }
+          })
+          if(!flag){
+            return <GridItem key={car.id} >
+            <div key={car.name} className="col mb-4">
+                      <div className="card h-100">
+                      <div className="card-body">
+                        <img src={car.photos} alt={car.name} className='card-img-top cardimg' />
+                    <div className='card-body cardinfo'>
+                      <p className='card-text'>
+                        <strong>City:</strong> {car.city}
+                      </p>
+                      <p className='card-text'>
+                        <strong>Car:</strong> {car.name}
+                      </p>
+                      <p className='card-text'>
+                        <strong>Price:</strong> {car.pricePerDay}/Day
+                      </p>
+                      <p className='card-text'>
+                        <strong>Rating:</strong> {car.rating}
+                      </p>
+                      <button className='btn btn-primary bookbtn' onClick={() => handleCardClick(car, currentIndex + index)}>Book</button>
+                      <button onClick={() =>handleLike(car)}><FavoriteIcon/></button>
+                      
+                    </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-        </GridItem>
-      ))}
+          </GridItem>
+          }
+          else{
+            // console.log(car)
+          }  
+        }  
+        else{
+          return <GridItem key={car.id} >
+            <div key={car.name} className="col mb-4">
+                      <div className="card h-100">
+                      <div className="card-body">
+                        <img src={car.photos} alt={car.name} className='card-img-top cardimg' />
+                    <div className='card-body cardinfo'>
+                      <p className='card-text'>
+                        <strong>City:</strong> {car.city}
+                      </p>
+                      <p className='card-text'>
+                        <strong>Car:</strong> {car.name}
+                      </p>
+                      <p className='card-text'>
+                        <strong>Price:</strong> {car.pricePerDay}/Day
+                      </p>
+                      <p className='card-text'>
+                        <strong>Rating:</strong> {car.rating}
+                      </p>
+                      <button className='btn btn-primary bookbtn' onClick={() => handleCardClick(car, currentIndex + index)}>Book</button>
+                      <button onClick={() =>handleLike(car)}><FavoriteIcon/></button>
+                      
+                    </div>
+                        </div>
+                      </div>
+                    </div>
+          </GridItem>
+        }    
+})}
     </Grid>
     <Modal show={isModalOpen} onHide={closeModal}>
                 <Modal.Header closeButton>
