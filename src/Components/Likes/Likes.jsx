@@ -5,6 +5,7 @@ import { SAVE_SINGLE_CAR } from '../../Redux/carsReducer/actionTypes'
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react';
 import { Grid, GridItem } from '@chakra-ui/react';
+import { saveUserData } from '../../Redux/authReducer/action'
 const Likes = () => {
   const user=JSON.parse(localStorage.getItem('user'))
   const [fav,setfav]=useState([])
@@ -31,8 +32,27 @@ const Likes = () => {
     dispatch({type:SAVE_SINGLE_CAR,payload:car})
     localStorage.setItem('rentaridesinglecar',JSON.stringify(car))
     navigate('/singlecar')
-
   };
+  const handleRemove=(car)=>{
+  const filteredlikes=[]
+  //console.log(car._id)
+  user.favourite.forEach((e)=>{
+      if(e!=car._id){
+        filteredlikes.push(e)
+      }
+  })
+   axios.patch(`https://erin-tasty-barnacle.cyclic.app/users/update/${user._id}`,
+   {favourite:filteredlikes})
+   .then((res)=>{
+    dispatch(saveUserData(res.data.user))
+    console.log(res.data.user.favourite)
+    setfav(res.data.user.favourite)
+   })
+   .catch((err)=>{
+    console.log(err)
+   })
+  }
+ // console.log(user)
   return (
     <div>
       <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)', xl: 'repeat(4, 1fr)' }} gap={4}>
@@ -55,7 +75,11 @@ const Likes = () => {
                     <p className='card-text'>
                       <strong>Rating:</strong> {car.rating}
                     </p>
-                    <button className='btn btn-primary bookbtn' onClick={() => handleCardClick(car)}>Book</button>              
+                    <div style={{display:"flex",justifyContent:"space-between",margin:"auto",width:"90%"}}>
+                      <button className='btn btn-primary bookbtn' onClick={() => handleCardClick(car)}>Book</button>
+                      <button className='btn btn-primary bookbtn' onClick={() => handleRemove(car)}>Remove</button>
+                    </div>
+                                  
                   </div>
                       </div>
                     </div>

@@ -1,37 +1,44 @@
 import React from 'react'
-
+import { Container, Box, Heading, Text, Image, Flex } from "@chakra-ui/react";
 const WhyChoose = () => {
   return (
-    <div className="container py-4">
-  <div className="row">
-    <div className="col-md-4 p-4">
-      <h2 className="h2">Why Choose Our Website?</h2>
-      <p className="lead">
-        We offer a variety of compelling reasons why you should choose our car rental service.
-      </p>
-    </div>
+   
+      <Flex flexWrap={["wrap", "wrap", "nowrap"]} mt={"100px"} mb={"50px"} ml={"10%"} >
+        <Box p={4} flexBasis={["100%", "100%", "30%"]} textAlign={"start"}>
+          <Heading as="h2" fontSize="2xl" mb={4}>
+            Why Choose Our Website?
+          </Heading>
+          <Text fontSize="lg" w={"70%"}>
+            We offer a variety of compelling reasons why you should choose our car rental service.
+          </Text>
+        </Box>
+        <Flex p={4} flexBasis={["100%", "100%", "70%"]} justifyContent={"center"}>
+          <Box textAlign="start" mb={4} flexBasis={["100%", "100%", "30%"]}>
+            <Image src="https://doav52ie4cv60.cloudfront.net/images/repair.svg" alt="Icon 1" boxSize="40px" mb={2} />
+            <Heading as="strong" fontSize="lg" mb={2} textAlign={"start"}>
+              Accessible
+            </Heading>
+            <Text>Competitive rates for all types of vehicles.</Text>
+          </Box>
 
-    <div className="col-md-8 p-4">
-      <ul className="list-unstyled d-flex">
-        <li className="mb-4 text-center">
-          <img src="https://doav52ie4cv60.cloudfront.net/images/repair.svg" alt="Icon 1" className="img-fluid mb-2" style={{ width: '40px' }} />
-          <strong>Accessible</strong>
-          <p>Competitive rates for all types of vehicles.</p>
-        </li>
-        <li className="mb-4 text-center">
-          <img src="https://doav52ie4cv60.cloudfront.net/images/earning.svg" alt="Icon 2" className="img-fluid mb-2" style={{ width: '40px' }} />
-          <strong>Secure</strong>
-          <p>Pay 0 security deposit, get unlimited KMs</p>
-        </li>
-        <li className="text-center">
-          <img src="https://doav52ie4cv60.cloudfront.net/images/flexibility.svg" alt="Icon 3" className="img-fluid mb-2" style={{ width: '40px' }} />
-          <strong>Convenient</strong>
-          <p>From Hatchbacks to SUVs, choose from 25,000+ cars</p>
-        </li>
-      </ul>
-    </div>
-  </div>
-</div>
+          <Box textAlign="start" mb={4} flexBasis={["100%", "100%", "30%"]}>
+            <Image src="https://doav52ie4cv60.cloudfront.net/images/earning.svg" alt="Icon 2" boxSize="40px" mb={2} />
+            <Heading as="strong" fontSize="lg" mb={2}>
+              Secure
+            </Heading>
+            <Text>Pay 0 security deposit, get unlimited KMs</Text>
+          </Box>
+
+          <Box textAlign="start" flexBasis={["100%", "100%", "30%"]}>
+            <Image src="https://doav52ie4cv60.cloudfront.net/images/flexibility.svg" alt="Icon 3" boxSize="40px" mb={2} />
+            <Heading as="strong" fontSize="lg" mb={2}>
+              Convenient
+            </Heading>
+            <Text>From Hatchbacks to SUVs, choose from 25,000+ cars</Text>
+          </Box>
+        </Flex>
+      </Flex>
+ 
 
   )
 }

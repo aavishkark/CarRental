@@ -60,8 +60,8 @@ else{
       const navigate=useNavigate()
       useEffect(()=>{
         dispatch(getCarsByCity({city,pricesort,typeesort}))
-        console.log(start)
         setstart(JSON.parse(localStorage.getItem('rentaridestartdate')))
+        setend(JSON.parse(localStorage.getItem('rentarideenddate')))
       },[flag])
       const changelocation=(e)=>{
             dispatch({type:SET_USER_CITY,payload:e.target.value})
@@ -83,33 +83,8 @@ else{
         else{
           startday="0"+e.getDate()
         }
-        // const parts1 = [startday,startmonth,e.getFullYear()]
-        // const parts2= end.split('/')
-        // const dateObject1 = new Date(parts1[2], parts1[1] - 1, parts1[0]);
-        // const dateObject2 = new Date(parts2[2], parts2[1] - 1, parts2[0]);
-        // const timeDiff = dateObject2 - dateObject1;
-        // const daysDiff = (timeDiff / (1000 * 3600 * 24));
-        // if(daysDiff<0){
-        //   toast({
-        //     description: "Start Day Should be Less Then End Day",
-        //     status: 'error',
-        //     duration: 9000,
-        //     isClosable: true,
-        //   })
-        // }
-        // if(daysDiff>7){
-        //   toast({
-        //     description: "You Can Rent A Car For Maximum One Week",
-        //     status: 'error',
-        //     duration: 9000,
-        //     isClosable: true,
-        //   })
-        // }
-       // if(daysDiff>0 && daysDiff<=7){
-         // setstart(`${startday}/${startmonth}/${e.getFullYear()}`)
+          setstart(`${startday}/${startmonth}/${e.getFullYear()}`)
           localStorage.setItem('rentaridestartdate',JSON.stringify(`${startday}/${startmonth}/${e.getFullYear()}`))
-         
-        //}
       }
       const changeEndDate=(e)=>{
         let endmonth
@@ -126,32 +101,8 @@ else{
         else{
           endday="0"+e.getDate()
         }
-        // const parts1 = start.split('/')
-        // const parts2= [endday,endmonth,e.getFullYear()]
-        // const dateObject1 = new Date(parts1[2], parts1[1] - 1, parts1[0]);
-        // const dateObject2 = new Date(parts2[2], parts2[1] - 1, parts2[0]);
-        // const timeDiff = dateObject2 - dateObject1;
-        // const daysDiff = (timeDiff / (1000 * 3600 * 24));
-        // if(daysDiff<0){
-        //   toast({
-        //     description: "End Day should be Greater Than Start Day",
-        //     status: 'error',
-        //     duration: 9000,
-        //     isClosable: true,
-        //   })
-        // }
-        // if(daysDiff>7){
-        //   toast({
-        //     description: "You Can Rent A Car For Maximum One Week",
-        //     status: 'error',
-        //     duration: 9000,
-        //     isClosable: true,
-        //   })
-        // }
-        //if(daysDiff>0 && daysDiff<=7){
           setend(`${endday}/${endmonth}/${e.getFullYear()}`)
           localStorage.setItem('rentarideenddate',JSON.stringify(`${endday}/${endmonth}/${e.getFullYear()}`))
-        //}
       }
       const handleSubmit=()=>{
         const parts1 = start.split('/')
@@ -265,9 +216,11 @@ else{
         let flag=false
         if(car.dates.length!=0){
           car.dates.forEach((c)=>{
+            console.log(c)
             const parseDate = (dateString) => {
               const [day, month, year] = dateString.split('/');
-              return dateString.split('/');
+              console.log(day,month,year)
+             // return dateString.split('/');
             }
             let start1=parseDate(c.start)
             let end1=parseDate(c.end)

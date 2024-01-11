@@ -4,7 +4,7 @@ import {Box,Image,Grid,Select
 const PopularPlaces = () => {
   let location="Pune"
   return (
-    <Grid templateColumns="repeat(2, 1fr)" gap="2" h="100px">
+    <Grid templateColumns="repeat(2, 1fr)" gap="2">
     <Box>
       <Select
         defaultValue="default1"

@@ -4,6 +4,23 @@ import axios from 'axios';
 import './carcarousal.css';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { FaRupeeSign } from "react-icons/fa";
+import { StarIcon } from "@chakra-ui/icons";
+import { Icon } from '@chakra-ui/react';
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  Image,
+  Text,
+  Button,
+  Box,
+  Grid
+} from "@chakra-ui/react";
 const CarCarousal = () => {
     const [cars,setcars]=useState([])
     const [page,setpage]=useState(1)
@@ -11,6 +28,8 @@ const CarCarousal = () => {
     const [singlepage,setsinglepage]=useState(1)
     const [totalcars,settotalcars]=useState()
     const [totalpagesthree,settotalpagesthree]=useState()
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedCar, setSelectedCar] = useState(null);
     useEffect(()=>{
       axios.get(`https://mock-server-rentride.onrender.com/cars`)
       .then((res)=>{
@@ -50,19 +69,25 @@ const CarCarousal = () => {
       setpage((prev)=>{return prev+1})
     }
     const handleprevioussingle=()=>{
-      console.log(singlepage)
         setsinglepage((prev)=>{return prev-1})
     }
     const handlenextsingle=()=>{
       setsinglepage((prev)=>{return prev+1})
     }
+    const handleCardClick=(car)=>{
+      setSelectedCar(car);
+      setIsModalOpen(true);
+    }
+    const closeModal = () => {
+      setIsModalOpen(false);
+    };
   return (
     <>
    {cars && cars.length > 0 ? (
-        <div className='container d-none d-md-block'>
+        <div className='container d-none d-md-block' style={{marginTop:"100px"}}>
           <div className='row'>
             {cars.map((car) => (
-              <div className='col-md-4 mb-4' key={car.id}>
+              <div className='col-md-4 mb-4' key={car.id} onClick={() => handleCardClick(car)}>
                 <div className='card'>
                   <img src={car.photos} alt={car.name} className='card-img-top cardimg' />
                   <div className='card-body cardinfo'>
@@ -73,12 +98,11 @@ const CarCarousal = () => {
                       <strong>Car:</strong> {car.name}
                     </p>
                     <p className='card-text'>
-                      <strong>Price:</strong> {car.pricePerDay}/Day
+                      <strong>Price:</strong> <Icon as={FaRupeeSign} color="green.500" boxSize={4} /> {car.pricePerDay}/Day
                     </p>
                     <p className='card-text'>
-                      <strong>Rating:</strong> {car.rating}
+                      <strong>Rating:</strong> {car.rating} <Icon as={StarIcon} color="yellow.400" boxSize={4} />
                     </p>
-                    <button className='btn btn-primary bookbtn'>Book</button>
                   </div>
                 </div>
               </div>
@@ -102,49 +126,65 @@ const CarCarousal = () => {
         </div>
       ) : null}
 
-      {singlecar && singlecar.length > 0 ? (
-        <div className='containertwo d-md-none'>
-          <div className='row'>
-            {singlecar.map((car) => (
-              <div key={car.id}>
-                <div className='card'>
-                  <img src={car.photos} alt={car.name} className='card-img-top cardimg' />
-                  <div className='card-body cardinfo'>
-                    <p className='card-text'>
-                      <strong>City:</strong> {car.city}
-                    </p>
-                    <p className='card-text'>
-                      <strong>Car:</strong> {car.name}
-                    </p>
-                    <p className='card-text'>
-                      <strong>Price:</strong> {car.pricePerDay}/Day
-                    </p>
-                    <p className='card-text'>
-                      <strong>Rating:</strong> {car.rating}
-                    </p>
-                    <button className='btn btn-primary bookbtn'>Book</button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div>
-            {singlepage===1? <button className={`btn btn-primary prevbtn disabled`}>
-              <ArrowBackIcon />
-            </button>:
-             <button className={`btn btn-primary prevbtn`} onClick={handleprevioussingle}>
-             <ArrowBackIcon />
-           </button>}
-           {(totalcars)&&singlepage===totalcars.length?<button className={`btn btn-primary nextbtn disabled`}>
-              <ArrowForwardIcon />
-            </button>:
-            <button className={`btn btn-primary nextbtn`} onClick={handlenextsingle}>
-            <ArrowForwardIcon />
-          </button>}
-            
-          </div>
-        </div>
-      ) : null}
+<Modal isOpen={isModalOpen} onClose={closeModal} size="lg">
+      <ModalOverlay />
+      <ModalContent>
+        <ModalHeader>
+          {selectedCar ? (
+            <Text fontSize="xl">{selectedCar.name} Details</Text>
+          ) : (
+            <Text fontSize="xl">Car Details</Text>
+          )}
+        </ModalHeader>
+        <ModalCloseButton />
+        <ModalBody>
+          {selectedCar && (
+              <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={4}>
+                 <Image src={selectedCar.photos} alt={selectedCar.name} borderRadius="lg" mb={4} />
+              <Box p={1} borderWidth="1px" borderRadius="lg">
+               
+                <Text fontSize="xl" fontWeight="bold">
+                  {selectedCar.name}
+                </Text>
+                <Text fontSize="md" color="gray.500" mb={4}>
+                  <strong>City:</strong> {selectedCar.city}
+                </Text>
+                <Text>
+                  <strong>Type:</strong> {selectedCar.type2}
+                </Text>
+                <Text>
+                  <strong>Fuel:</strong> {selectedCar.fuel}
+                </Text>
+                <Text>
+                  <strong>Seats:</strong> {selectedCar.seats}
+                </Text>
+                <Text>
+                  <strong>Trips:</strong> {selectedCar.trips}
+                </Text>
+              </Box>
+        
+              <Box p={1} borderWidth="1px" borderRadius="lg">
+                <Text>
+                  <strong>Rating:</strong>{" "}
+                  {Array.from({ length: selectedCar.rating }, (_, index) => (
+                    <Icon key={index} as={StarIcon} color="yellow.400" boxSize={4} />
+                  ))}
+                </Text>
+                <Text>
+                  <strong>Price per Day:</strong>{" "}
+                  <Icon as={FaRupeeSign} color="green.500" boxSize={4} /> {selectedCar.pricePerDay}
+                </Text>
+              </Box>
+            </Grid>
+          )}
+        </ModalBody>
+        <ModalFooter>
+          <Button colorScheme="blue" mr={3} onClick={closeModal}>
+            Close
+          </Button>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
   </>
   )
 }

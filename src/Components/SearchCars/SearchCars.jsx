@@ -7,7 +7,8 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { SET_USER_CITY } from '../../Redux/carsReducer/actionTypes';
-import { useToast } from '@chakra-ui/react'
+import { useToast } from '@chakra-ui/react';
+import { Flex,Text,Box } from '@chakra-ui/react';
 const SearchCars = () => {
   const toast = useToast()
   const navigate=useNavigate()
@@ -29,7 +30,7 @@ const SearchCars = () => {
   const [start,setstartDate]=useState(new Date())
   const [value, setvalue] = useState(`${day}/${month}/${new Date().getFullYear()}`);
   const [endDate, setEndDate] = useState(`${day}/${month}/${new Date().getFullYear()}`);
-  const [city,setcity]=useState(localStorage.getItem('rentaridecity')) 
+  const [city1,setcity]=useState(localStorage.getItem('rentaridecity')) 
   const topTenCities = [
         'Mumbai',
         'Delhi',
@@ -64,7 +65,7 @@ const changeDate=(e)=>{
     startday="0"+e.getDate()
   }
         setvalue(`${startday}/${startmonth}/${e.getFullYear()}`)
-        localStorage.setItem('rentaridestartdate',`${startday}/${startmonth}/${e.getFullYear()}`)
+        localStorage.setItem('rentaridestartdate',JSON.stringify(`${startday}/${startmonth}/${e.getFullYear()}`))
       }
   const changeDateEnd=(e)=>{
   
@@ -108,17 +109,20 @@ const changeDate=(e)=>{
           } else if (dateObject2 > dateObject1) {
             setEndDate(`${endday}/${endmonth}/${e.getFullYear()}`)
             setstartDate(e)
-            localStorage.setItem('rentarideenddate',`${endday}/${endmonth}/${e.getFullYear()}`)
+            localStorage.setItem('rentarideenddate',JSON.stringify(`${endday}/${endmonth}/${e.getFullYear()}`))
           } else {
             setEndDate(`${endday}/${endmonth}/${e.getFullYear()}`)
             setstartDate(e)
-            localStorage.setItem('rentarideenddate',`${endday}/${endmonth}/${e.getFullYear()}`)
+            localStorage.setItem('rentarideenddate',JSON.stringify(`${endday}/${endmonth}/${e.getFullYear()}`))
           }
-          localStorage.setItem('rentarideenddate',`${endday}/${endmonth}/${e.getFullYear()}`)
+          localStorage.setItem('rentarideenddate',JSON.stringify(`${endday}/${endmonth}/${e.getFullYear()}`))
          }
        }
       const handleSubmit=()=>{
-          
+        localStorage.setItem('rentaridecity',city1)
+        localStorage.setItem('rentaridestartdate',JSON.stringify(value))
+        localStorage.setItem('rentarideenddate',JSON.stringify(endDate))
+        navigate('/cars')
       }
   return (
     <div className='main'>
@@ -128,30 +132,39 @@ const changeDate=(e)=>{
       <h2>Welcome to Our Car Rental Service</h2>
       <form onSubmit={() =>handleSubmit}>
         <select className="form-select mb-3" aria-label="Select Your City" onChange={changelocation}>
-          <option disabled value="">Select Your City</option>
           {topTenCities.map((city) => (
-            <option key={city} value={city}>
-              {city}
-            </option>
+            city==city1? <option key={city} value={city} selected>
+            {city}
+          </option>:
+           <option key={city} value={city}>
+           {city}
+         </option>
           ))}
         </select>
-        <div>
-          <span>Start</span>
+        <Flex
+      direction={{ base: "column", lg: "row" }}
+      justify={{ base: "center", lg: "space-evenly" }}
+      align={{ base: "center", lg: "flex-start" }}
+      p={4}
+    >
+      <Box mb={{ base: 4, lg: 0 }} mr={{ base: 0, lg: 4 }}>
+        <Text fontSize="lg">Start</Text>
         <DatePicker
-        minDate={new Date()}
-        placeholderText={value}
-        onChange={changeDate}
-      />
-        </div>
-        <div>
-        <span>End</span>
+          minDate={new Date()}
+          placeholderText={value}
+          onChange={changeDate}
+        />
+      </Box>
+      <Box>
+        <Text fontSize="lg">End</Text>
         <DatePicker
-        minDate={new Date()}
-        placeholderText={endDate}
-        onChange={changeDateEnd}
-      />
-        </div>
-        <button className="btn btn-primary" type="submit" onClick={()=>{navigate('/cars')}}>Search Cars</button>
+          minDate={new Date()}
+          placeholderText={endDate}
+          onChange={changeDateEnd}
+        />
+      </Box>
+    </Flex>
+        <button className="btn btn-primary" type="submit" onClick={handleSubmit}>Search Cars</button>
       </form>
     </div>
   </div>

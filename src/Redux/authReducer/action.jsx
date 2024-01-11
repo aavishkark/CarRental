@@ -3,7 +3,6 @@ import { POST_LOGIN_FAILURE, POST_LOGIN_REQ, POST_LOGIN_SUCCESS, POST_LOGOUT_REQ
 
 export const postLogin=(data)=>(dispatch)=>{
    dispatch({type:POST_LOGIN_REQ})
-   console.log(data)
    return axios.post(`https://erin-tasty-barnacle.cyclic.app/users/login`,{
     email:data.email,
     password:data.password
@@ -33,9 +32,15 @@ export const postLogin=(data)=>(dispatch)=>{
 export const postLogout=(data)=>(dispatch)=>{
     localStorage.removeItem('user')
     localStorage.removeItem('rentaridecity')
+    localStorage.removeItem('rentaridedate')
+    localStorage.removeItem('rentaridesinglecar')
+    localStorage.removeItem('rentaridestartdate')
+    localStorage.removeItem('rentarideenddate')
+    localStorage.removeItem('startenddates')
     localStorage.setItem('rentaride',false)
     dispatch({type:POST_LOGOUT_REQ})
 }
 export const saveUserData=(data)=>(dispatch)=>{
+    console.log(data)
      dispatch({type:SAVE_USER_DATA,payload:data})
 }

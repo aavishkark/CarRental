@@ -95,7 +95,7 @@ const Reviews = () => {
     };
     const displayReviews = reviews.slice(currentSlide * 3, (currentSlide + 1) * 3);
   return (
-    <Box py="8">
+    <Box p="8" mt={"100px"} mb={"100px"}>
     <Flex justifyContent="space-between" alignItems="center">
       <IconButton
         icon={<ChevronLeftIcon />}
@@ -121,7 +121,7 @@ const Reviews = () => {
                 alt={`${review.name}'s profile`}
               />
             </CardHeader>
-            <CardBody>
+            <CardBody textAlign={"start"}>
               <Text fontWeight="bold" fontSize="lg" mb="2">
                 {review.name}
               </Text>

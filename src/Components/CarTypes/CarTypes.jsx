@@ -1,9 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Modal, Image,Nav } from 'react-bootstrap';
+import {Nav } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { ChevronLeft, ChevronRight } from 'react-bootstrap-icons';
 import './cartypes.css';
 import axios from 'axios';
+import { FaRupeeSign } from "react-icons/fa";
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  Image,
+  Text,
+  Button,
+  Box,
+  Icon,
+  Grid
+} from "@chakra-ui/react";
+import { StarIcon } from "@chakra-ui/icons";
 const CarTypes = () => {
     const [selectedLabel, setSelectedLabel] = useState('Sedan');
     const [cars, setCars] = useState([]);
@@ -17,6 +34,7 @@ const CarTypes = () => {
   
     const handleLabelClick = (label) => {
       setSelectedLabel(label);
+      setCurrentIndex(0)
     };
   
     useEffect(() => {
@@ -29,7 +47,7 @@ const CarTypes = () => {
       })
       fetch(`${"https://mock-server-rentride.onrender.com/cars"}?type2=${selectedLabel}`)
         .then((response) => response.json())
-        .then((data) => {setCars(data)})
+        .then((data) => {setCars(data);})
         .catch((error) => console.error('Error fetching data:', error));
         getSinglecar()
     }, [selectedLabel,singlepage]);
@@ -58,7 +76,6 @@ const CarTypes = () => {
       axios.get(`https://mock-server-rentride.onrender.com/cars?type2=${selectedLabel}&_page=${singlepage}&_limit=1`)
       .then((res)=>{
        setsinglecar(res.data)
-       console.log(res.data)
       })
       .catch((err)=>{
         console.log(err)
@@ -66,12 +83,11 @@ const CarTypes = () => {
     }
     const handleprevioussingle=()=>{
         setsinglepage((prev)=>{return prev-1})
-        console.log(singlepage)
     }
     const handlenextsingle=()=>{
       setsinglepage((prev)=>{return prev+1})
-      console.log(singlepage)
     }
+    console.log(cars)
     return (
         <div className="container-fluid">
           <Nav variant="tabs" className="justify-content-around align-items-center py-4">
@@ -122,12 +138,11 @@ const CarTypes = () => {
                       <strong>Car:</strong> {car.name}
                     </p>
                     <p className='card-text'>
-                      <strong>Price:</strong> {car.pricePerDay}/Day
+                      <strong>Price:</strong> <Icon as={FaRupeeSign} color="green.500" boxSize={4} />  {car.pricePerDay}/Day
                     </p>
                     <p className='card-text'>
-                      <strong>Rating:</strong> {car.rating}
-                    </p>
-                    <button className='btn btn-primary bookbtn'>Book</button>
+                      <strong>Rating:</strong> {car.rating} <Icon as={StarIcon} color="yellow.400" boxSize={4} />
+                    </p>                  
                   </div>
                       </div>
                     </div>
@@ -152,84 +167,176 @@ const CarTypes = () => {
                 </button>
               </div>
   
-              <Modal show={isModalOpen} onHide={closeModal}>
-                <Modal.Header closeButton>
-                  <Modal.Title>Car Details</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                  {selectedCar && (
-                    <div className="d-flex flex-column align-items-center">
-                      <Image src={selectedCar.photos[0]} alt={selectedCar.name} />
-                      <p>Type: {selectedCar.type2}</p>
-                      <p>Name: {selectedCar.name}</p>
-                      <p>Rating: {selectedCar.rating}</p>
-                      <p>Price per Day: ${selectedCar.pricePerDay}</p>
-                    </div>
-                  )}
-                </Modal.Body>
-                <Modal.Footer>
-                  <Button variant="primary" onClick={closeModal}>
-                    Close
-                  </Button>
-                </Modal.Footer>
-              </Modal>
+              <Modal isOpen={isModalOpen} onClose={closeModal} size="lg">
+      <ModalOverlay />
+      <ModalContent>
+        <ModalHeader>
+          {selectedCar ? (
+            <Text fontSize="xl">{selectedCar.name} Details</Text>
+          ) : (
+            <Text fontSize="xl">Car Details</Text>
+          )}
+        </ModalHeader>
+        <ModalCloseButton />
+        <ModalBody>
+          {selectedCar && (
+              <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={4}>
+                 <Image src={selectedCar.photos} alt={selectedCar.name} borderRadius="lg" mb={4} />
+              <Box p={1} borderWidth="1px" borderRadius="lg">
+               
+                <Text fontSize="xl" fontWeight="bold">
+                  {selectedCar.name}
+                </Text>
+                <Text fontSize="md" color="gray.500" mb={4}>
+                  <strong>City:</strong> {selectedCar.city}
+                </Text>
+                <Text>
+                  <strong>Type:</strong> {selectedCar.type2}
+                </Text>
+                <Text>
+                  <strong>Fuel:</strong> {selectedCar.fuel}
+                </Text>
+                <Text>
+                  <strong>Seats:</strong> {selectedCar.seats}
+                </Text>
+                <Text>
+                  <strong>Trips:</strong> {selectedCar.trips}
+                </Text>
+              </Box>
+        
+              <Box p={1} borderWidth="1px" borderRadius="lg">
+                <Text>
+                  <strong>Rating:</strong>{" "}
+                  {Array.from({ length: selectedCar.rating }, (_, index) => (
+                    <Icon key={index} as={StarIcon} color="yellow.400" boxSize={4} />
+                  ))}
+                </Text>
+                <Text>
+                  <strong>Price per Day:</strong>{" "}
+                  <Icon as={FaRupeeSign} color="green.500" boxSize={4} /> {selectedCar.pricePerDay}
+                </Text>
+              </Box>
+            </Grid>
+          )}
+        </ModalBody>
+        <ModalFooter>
+          <Button colorScheme="blue" mr={3} onClick={closeModal}>
+            Close
+          </Button>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
             </div>
           )}
           {selectedLabel === 'Hatchback' && (
-            <div className="p-4">
-              <div className="row row-cols-1 row-cols-md-3 g-4">
-                {cars.slice(currentIndex, currentIndex + cardsPerPage).map((car, index) => (
-                  <div
-                    key={car.name}
-                    className="col mb-4"
-                    onClick={() => handleCardClick(car, currentIndex + index)}
-                  >
-                    <div className="card h-100">
-                    <div className="card-body">
-                      <img src={car.photos} alt={car.name} className='card-img-top cardimg' />
-                  <div className='card-body cardinfo'>
-                    <p className='card-text'>
-                      <strong>City:</strong> {car.city}
-                    </p>
-                    <p className='card-text'>
-                      <strong>Car:</strong> {car.name}
-                    </p>
-                    <p className='card-text'>
-                      <strong>Price:</strong> {car.pricePerDay}/Day
-                    </p>
-                    <p className='card-text'>
-                      <strong>Rating:</strong> {car.rating}
-                    </p>
-                    <button className='btn btn-primary bookbtn'>Book</button>
-                  </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-  
-              <Modal show={isModalOpen} onHide={closeModal}>
-                <Modal.Header closeButton>
-                  <Modal.Title>Car Details</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                  {selectedCar && (
-                    <div className="d-flex flex-column align-items-center">
-                      <Image src={selectedCar.photos[0]} alt={selectedCar.name} />
-                      <p>Type: {selectedCar.type2}</p>
-                      <p>Name: {selectedCar.name}</p>
-                      <p>Rating: {selectedCar.rating}</p>
-                      <p>Price per Day: ${selectedCar.pricePerDay}</p>
-                    </div>
-                  )}
-                </Modal.Body>
-                <Modal.Footer>
-                  <Button variant="primary" onClick={closeModal}>
-                    Close
-                  </Button>
-                </Modal.Footer>
-              </Modal>
-            </div>
+           <div className="p-1">
+           <div className="row row-cols-1 row-cols-md-3 g-4">
+             {cars.slice(currentIndex, currentIndex + cardsPerPage).map((car, index) => (
+               <div
+                 key={car.name}
+                 className="col mb-4"
+                 onClick={() => handleCardClick(car, currentIndex + index)}
+               >
+                 <div className="card h-100">
+                   <div className="card-body">
+                   <img src={car.photos} alt={car.name} className='card-img-top cardimg' />
+               <div className='card-body cardinfo'>
+                 <p className='card-text'>
+                   <strong>City:</strong> {car.city}
+                 </p>
+                 <p className='card-text'>
+                   <strong>Car:</strong> {car.name}
+                 </p>
+                 <p className='card-text'>
+                   <strong>Price:</strong> <Icon as={FaRupeeSign} color="green.500" boxSize={4} />  {car.pricePerDay}/Day
+                 </p>
+                 <p className='card-text'>
+                   <strong>Rating:</strong> {car.rating} <Icon as={StarIcon} color="yellow.400" boxSize={4} />
+                 </p>                  
+               </div>
+                   </div>
+                 </div>
+               </div>
+             ))}
+           </div>
+
+           <div className="mt-4 text-center">
+             <button
+               className="btn btn-light me-2"
+               onClick={prevCards}
+               disabled={currentIndex === 0}
+             >
+               <ChevronLeft />
+             </button>
+             <button
+               className="btn btn-light"
+               onClick={nextCards}
+               disabled={currentIndex >= cars.length - cardsPerPage}
+             >
+               <ChevronRight />
+             </button>
+           </div>
+
+           <Modal isOpen={isModalOpen} onClose={closeModal} size="lg">
+   <ModalOverlay />
+   <ModalContent>
+     <ModalHeader>
+       {selectedCar ? (
+         <Text fontSize="xl">{selectedCar.name} Details</Text>
+       ) : (
+         <Text fontSize="xl">Car Details</Text>
+       )}
+     </ModalHeader>
+     <ModalCloseButton />
+     <ModalBody>
+       {selectedCar && (
+           <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={4}>
+              <Image src={selectedCar.photos} alt={selectedCar.name} borderRadius="lg" mb={4} />
+           <Box p={1} borderWidth="1px" borderRadius="lg">
+            
+             <Text fontSize="xl" fontWeight="bold">
+               {selectedCar.name}
+             </Text>
+             <Text fontSize="md" color="gray.500" mb={4}>
+               <strong>City:</strong> {selectedCar.city}
+             </Text>
+             <Text>
+               <strong>Type:</strong> {selectedCar.type2}
+             </Text>
+             <Text>
+               <strong>Fuel:</strong> {selectedCar.fuel}
+             </Text>
+             <Text>
+               <strong>Seats:</strong> {selectedCar.seats}
+             </Text>
+             <Text>
+               <strong>Trips:</strong> {selectedCar.trips}
+             </Text>
+           </Box>
+     
+           <Box p={1} borderWidth="1px" borderRadius="lg">
+             <Text>
+               <strong>Rating:</strong>{" "}
+               {Array.from({ length: selectedCar.rating }, (_, index) => (
+                 <Icon key={index} as={StarIcon} color="yellow.400" boxSize={4} />
+               ))}
+             </Text>
+             <Text>
+               <strong>Price per Day:</strong>{" "}
+               <Icon as={FaRupeeSign} color="green.500" boxSize={4} /> {selectedCar.pricePerDay}
+             </Text>
+           </Box>
+         </Grid>
+       )}
+     </ModalBody>
+     <ModalFooter>
+       <Button colorScheme="blue" mr={3} onClick={closeModal}>
+         Close
+       </Button>
+     </ModalFooter>
+   </ModalContent>
+ </Modal>
+         </div>
           )}
           {selectedLabel === 'SUV' && (
             <div className="p-4">
@@ -251,12 +358,12 @@ const CarTypes = () => {
                       <strong>Car:</strong> {car.name}
                     </p>
                     <p className='card-text'>
-                      <strong>Price:</strong> {car.pricePerDay}/Day
+                      <strong>Price:</strong><Icon as={FaRupeeSign} color="green.500" boxSize={4} /> {car.pricePerDay}/Day
                     </p>
                     <p className='card-text'>
-                      <strong>Rating:</strong> {car.rating}
+                      <strong>Rating:</strong> {car.rating} <Icon as={StarIcon} color="yellow.400" boxSize={4} />
                     </p>
-                    <button className='btn btn-primary bookbtn'>Book</button>
+                
                   </div>
                       </div>
                     </div>
@@ -281,27 +388,65 @@ const CarTypes = () => {
                 </button>
               </div>
   
-              <Modal show={isModalOpen} onHide={closeModal}>
-                <Modal.Header closeButton>
-                  <Modal.Title>Car Details</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                  {selectedCar && (
-                    <div className="d-flex flex-column align-items-center">
-                      <Image src={selectedCar.photos[0]} alt={selectedCar.name} />
-                      <p>Type: {selectedCar.type2}</p>
-                      <p>Name: {selectedCar.name}</p>
-                      <p>Rating: {selectedCar.rating}</p>
-                      <p>Price per Day: ${selectedCar.pricePerDay}</p>
-                    </div>
-                  )}
-                </Modal.Body>
-                <Modal.Footer>
-                  <Button variant="primary" onClick={closeModal}>
-                    Close
-                  </Button>
-                </Modal.Footer>
-              </Modal>
+              <Modal isOpen={isModalOpen} onClose={closeModal} size="lg">
+      <ModalOverlay />
+      <ModalContent>
+        <ModalHeader>
+          {selectedCar ? (
+            <Text fontSize="xl">{selectedCar.name} Details</Text>
+          ) : (
+            <Text fontSize="xl">Car Details</Text>
+          )}
+        </ModalHeader>
+        <ModalCloseButton />
+        <ModalBody>
+          {selectedCar && (
+             <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={4}>
+              <Image src={selectedCar.photos} alt={selectedCar.name} borderRadius="lg" mb={4} />
+             <Box p={1} borderWidth="1px" borderRadius="lg">
+               
+               <Text fontSize="xl" fontWeight="bold">
+                 {selectedCar.name}
+               </Text>
+               <Text fontSize="md" color="gray.500" mb={4}>
+                 <strong>City:</strong> {selectedCar.city}
+               </Text>
+               <Text>
+                 <strong>Type:</strong> {selectedCar.type2}
+               </Text>
+               <Text>
+                 <strong>Fuel:</strong> {selectedCar.fuel}
+               </Text>
+               <Text>
+                 <strong>Seats:</strong> {selectedCar.seats}
+               </Text>
+               <Text>
+                 <strong>Trips:</strong> {selectedCar.trips}
+               </Text>
+             </Box>
+       
+             <Box p={1} borderWidth="1px" borderRadius="lg">
+               <Text>
+                 <strong>Rating:</strong>{" "}
+                 {Array.from({ length: selectedCar.rating }, (_, index) => (
+                   <Icon key={index} as={StarIcon} color="yellow.400" boxSize={4} />
+                 ))}
+               </Text>
+               <Text>
+                 <strong>Price per Day:</strong>{" "}
+                 <Icon as={FaRupeeSign} color="green.500" boxSize={4} /> {selectedCar.pricePerDay}
+               </Text>
+             </Box>
+           </Grid>
+          )}
+        </ModalBody>
+        <ModalFooter>
+          <Button colorScheme="blue" mr={3} onClick={closeModal}>
+            Close
+          </Button>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
             </div>
           )}
         </div>
@@ -326,12 +471,12 @@ const CarTypes = () => {
                       <strong>Car:</strong> {car.name}
                     </p>
                     <p className='card-text'>
-                      <strong>Price:</strong> {car.pricePerDay}/Day
+                      <strong>Price:</strong><Icon as={FaRupeeSign} color="green.500" boxSize={4} /> {car.pricePerDay}/Day
                     </p>
                     <p className='card-text'>
-                      <strong>Rating:</strong> {car.rating}
+                      <strong>Rating:</strong> {car.rating} <Icon as={StarIcon} color="yellow.400" boxSize={4} />
                     </p>
-                    <button className='btn btn-primary bookbtn'>Book</button>
+                   
                   </div>
                       </div>
                     </div>
@@ -356,100 +501,176 @@ const CarTypes = () => {
                 </button>
               </div>
   
-              <Modal show={isModalOpen} onHide={closeModal}>
-                <Modal.Header closeButton>
-                  <Modal.Title>Car Details</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                  {selectedCar && (
-                    <div className="d-flex flex-column align-items-center">
-                      <Image src={selectedCar.photos[0]} alt={selectedCar.name} />
-                      <p>Type: {selectedCar.type2}</p>
-                      <p>Name: {selectedCar.name}</p>
-                      <p>Rating: {selectedCar.rating}</p>
-                      <p>Price per Day: ${selectedCar.pricePerDay}</p>
-                    </div>
-                  )}
-                </Modal.Body>
-                <Modal.Footer>
-                  <Button variant="primary" onClick={closeModal}>
-                    Close
-                  </Button>
-                </Modal.Footer>
-              </Modal>
+              <Modal isOpen={isModalOpen} onClose={closeModal} size="lg">
+      <ModalOverlay />
+      <ModalContent>
+        <ModalHeader>
+          {selectedCar ? (
+            <Text fontSize="xl">{selectedCar.name} Details</Text>
+          ) : (
+            <Text fontSize="xl">Car Details</Text>
+          )}
+        </ModalHeader>
+        <ModalCloseButton />
+        <ModalBody>
+          {selectedCar && (
+             <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={4}>
+              <Image src={selectedCar.photos} alt={selectedCar.name} borderRadius="lg" mb={4} />
+             <Box p={1} borderWidth="1px" borderRadius="lg">
+               
+               <Text fontSize="xl" fontWeight="bold">
+                 {selectedCar.name}
+               </Text>
+               <Text fontSize="md" color="gray.500" mb={4}>
+                 <strong>City:</strong> {selectedCar.city}
+               </Text>
+               <Text>
+                 <strong>Type:</strong> {selectedCar.type2}
+               </Text>
+               <Text>
+                 <strong>Fuel:</strong> {selectedCar.fuel}
+               </Text>
+               <Text>
+                 <strong>Seats:</strong> {selectedCar.seats}
+               </Text>
+               <Text>
+                 <strong>Trips:</strong> {selectedCar.trips}
+               </Text>
+             </Box>
+       
+             <Box p={1} borderWidth="1px" borderRadius="lg">
+               <Text>
+                 <strong>Rating:</strong>{" "}
+                 {Array.from({ length: selectedCar.rating }, (_, index) => (
+                   <Icon key={index} as={StarIcon} color="yellow.400" boxSize={4} />
+                 ))}
+               </Text>
+               <Text>
+                 <strong>Price per Day:</strong>{" "}
+                 <Icon as={FaRupeeSign} color="green.500" boxSize={4} /> {selectedCar.pricePerDay}
+               </Text>
+             </Box>
+           </Grid>
+          )}
+        </ModalBody>
+        <ModalFooter>
+          <Button colorScheme="blue" mr={3} onClick={closeModal}>
+            Close
+          </Button>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
             </div>
           )}
           {selectedLabel === 'Hatchback' && (
-            <div className="p-4">
-              <div className="row row-cols-1 row-cols-md-3 g-4">
-                {singlecar&&singlecar.slice(currentIndex, currentIndex + cardsPerPage).map((car, index) => (
-                  <div
-                    key={car.name}
-                    className="col mb-4"
-                    onClick={() => handleCardClick(car, currentIndex + index)}
-                  >
-                    <div className="card h-100">
+            <div className="p-1">
+            <div className="row row-cols-1 row-cols-md-3 g-4">
+              {cars.slice(currentIndex, currentIndex + cardsPerPage).map((car, index) => (
+                <div
+                  key={car.name}
+                  className="col mb-4"
+                  onClick={() => handleCardClick(car, currentIndex + index)}
+                >
+                  <div className="card h-100">
                     <div className="card-body">
-                      <img src={car.photos} alt={car.name} className='card-img-top cardimg' />
-                  <div className='card-body cardinfo'>
-                    <p className='card-text'>
-                      <strong>City:</strong> {car.city}
-                    </p>
-                    <p className='card-text'>
-                      <strong>Car:</strong> {car.name}
-                    </p>
-                    <p className='card-text'>
-                      <strong>Price:</strong> {car.pricePerDay}/Day
-                    </p>
-                    <p className='card-text'>
-                      <strong>Rating:</strong> {car.rating}
-                    </p>
-                    <button className='btn btn-primary bookbtn'>Book</button>
-                  </div>
-                      </div>
+                    <img src={car.photos} alt={car.name} className='card-img-top cardimg' />
+                <div className='card-body cardinfo'>
+                  <p className='card-text'>
+                    <strong>City:</strong> {car.city}
+                  </p>
+                  <p className='card-text'>
+                    <strong>Car:</strong> {car.name}
+                  </p>
+                  <p className='card-text'>
+                    <strong>Price:</strong> <Icon as={FaRupeeSign} color="green.500" boxSize={4} />  {car.pricePerDay}/Day
+                  </p>
+                  <p className='card-text'>
+                    <strong>Rating:</strong> {car.rating} <Icon as={StarIcon} color="yellow.400" boxSize={4} />
+                  </p>                  
+                </div>
                     </div>
                   </div>
-                ))}
-              </div>
-              <div className="mt-4 text-center">
-                <button
-                  className="btn btn-light me-2"
-                  onClick={handleprevioussingle}
-                  disabled={currentIndex === 0}
-                >
-                  <ChevronLeft />
-                </button>
-                <button
-                  className="btn btn-light"
-                  onClick={handlenextsingle}
-                  disabled={currentIndex >= cars.length - cardsPerPage}
-                >
-                  <ChevronRight />
-                </button>
-              </div>
-  
-              <Modal show={isModalOpen} onHide={closeModal}>
-                <Modal.Header closeButton>
-                  <Modal.Title>Car Details</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                  {selectedCar && (
-                    <div className="d-flex flex-column align-items-center">
-                      <Image src={selectedCar.photos[0]} alt={selectedCar.name} />
-                      <p>Type: {selectedCar.type2}</p>
-                      <p>Name: {selectedCar.name}</p>
-                      <p>Rating: {selectedCar.rating}</p>
-                      <p>Price per Day: ${selectedCar.pricePerDay}</p>
-                    </div>
-                  )}
-                </Modal.Body>
-                <Modal.Footer>
-                  <Button variant="primary" onClick={closeModal}>
-                    Close
-                  </Button>
-                </Modal.Footer>
-              </Modal>
+                </div>
+              ))}
             </div>
+
+            <div className="mt-4 text-center">
+              <button
+                className="btn btn-light me-2"
+                onClick={prevCards}
+                disabled={currentIndex === 0}
+              >
+                <ChevronLeft />
+              </button>
+              <button
+                className="btn btn-light"
+                onClick={nextCards}
+                disabled={currentIndex >= cars.length - cardsPerPage}
+              >
+                <ChevronRight />
+              </button>
+            </div>
+
+            <Modal isOpen={isModalOpen} onClose={closeModal} size="lg">
+    <ModalOverlay />
+    <ModalContent>
+      <ModalHeader>
+        {selectedCar ? (
+          <Text fontSize="xl">{selectedCar.name} Details</Text>
+        ) : (
+          <Text fontSize="xl">Car Details</Text>
+        )}
+      </ModalHeader>
+      <ModalCloseButton />
+      <ModalBody>
+        {selectedCar && (
+            <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={4}>
+               <Image src={selectedCar.photos} alt={selectedCar.name} borderRadius="lg" mb={4} />
+            <Box p={1} borderWidth="1px" borderRadius="lg">
+             
+              <Text fontSize="xl" fontWeight="bold">
+                {selectedCar.name}
+              </Text>
+              <Text fontSize="md" color="gray.500" mb={4}>
+                <strong>City:</strong> {selectedCar.city}
+              </Text>
+              <Text>
+                <strong>Type:</strong> {selectedCar.type2}
+              </Text>
+              <Text>
+                <strong>Fuel:</strong> {selectedCar.fuel}
+              </Text>
+              <Text>
+                <strong>Seats:</strong> {selectedCar.seats}
+              </Text>
+              <Text>
+                <strong>Trips:</strong> {selectedCar.trips}
+              </Text>
+            </Box>
+      
+            <Box p={1} borderWidth="1px" borderRadius="lg">
+              <Text>
+                <strong>Rating:</strong>{" "}
+                {Array.from({ length: selectedCar.rating }, (_, index) => (
+                  <Icon key={index} as={StarIcon} color="yellow.400" boxSize={4} />
+                ))}
+              </Text>
+              <Text>
+                <strong>Price per Day:</strong>{" "}
+                <Icon as={FaRupeeSign} color="green.500" boxSize={4} /> {selectedCar.pricePerDay}
+              </Text>
+            </Box>
+          </Grid>
+        )}
+      </ModalBody>
+      <ModalFooter>
+        <Button colorScheme="blue" mr={3} onClick={closeModal}>
+          Close
+        </Button>
+      </ModalFooter>
+    </ModalContent>
+  </Modal>
+          </div>
           )}
           {selectedLabel === 'SUV' && (
             <div className="p-4">
@@ -471,12 +692,12 @@ const CarTypes = () => {
                       <strong>Car:</strong> {car.name}
                     </p>
                     <p className='card-text'>
-                      <strong>Price:</strong> {car.pricePerDay}/Day
+                      <strong>Price:</strong><Icon as={FaRupeeSign} color="green.500" boxSize={4} /> {car.pricePerDay}/Day
                     </p>
                     <p className='card-text'>
-                      <strong>Rating:</strong> {car.rating}
+                      <strong>Rating:</strong> {car.rating} <Icon as={StarIcon} color="yellow.400" boxSize={4} />
                     </p>
-                    <button className='btn btn-primary bookbtn'>Book</button>
+             
                   </div>
                       </div>
                     </div>
@@ -501,27 +722,65 @@ const CarTypes = () => {
                 </button>
               </div>
   
-              <Modal show={isModalOpen} onHide={closeModal}>
-                <Modal.Header closeButton>
-                  <Modal.Title>Car Details</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                  {selectedCar && (
-                    <div className="d-flex flex-column align-items-center">
-                      <Image src={selectedCar.photos[0]} alt={selectedCar.name} />
-                      <p>Type: {selectedCar.type2}</p>
-                      <p>Name: {selectedCar.name}</p>
-                      <p>Rating: {selectedCar.rating}</p>
-                      <p>Price per Day: ${selectedCar.pricePerDay}</p>
-                    </div>
-                  )}
-                </Modal.Body>
-                <Modal.Footer>
-                  <Button variant="primary" onClick={closeModal}>
-                    Close
-                  </Button>
-                </Modal.Footer>
-              </Modal>
+              <Modal isOpen={isModalOpen} onClose={closeModal} size="lg">
+      <ModalOverlay />
+      <ModalContent>
+        <ModalHeader>
+          {selectedCar ? (
+            <Text fontSize="xl">{selectedCar.name} Details</Text>
+          ) : (
+            <Text fontSize="xl">Car Details</Text>
+          )}
+        </ModalHeader>
+        <ModalCloseButton />
+        <ModalBody>
+          {selectedCar && (
+             <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={4}>
+              <Image src={selectedCar.photos} alt={selectedCar.name} borderRadius="lg" mb={4} />
+             <Box p={1} borderWidth="1px" borderRadius="lg">
+               
+               <Text fontSize="xl" fontWeight="bold">
+                 {selectedCar.name}
+               </Text>
+               <Text fontSize="md" color="gray.500" mb={4}>
+                 <strong>City:</strong> {selectedCar.city}
+               </Text>
+               <Text>
+                 <strong>Type:</strong> {selectedCar.type2}
+               </Text>
+               <Text>
+                 <strong>Fuel:</strong> {selectedCar.fuel}
+               </Text>
+               <Text>
+                 <strong>Seats:</strong> {selectedCar.seats}
+               </Text>
+               <Text>
+                 <strong>Trips:</strong> {selectedCar.trips}
+               </Text>
+             </Box>
+       
+             <Box p={1} borderWidth="1px" borderRadius="lg">
+               <Text>
+                 <strong>Rating:</strong>{" "}
+                 {Array.from({ length: selectedCar.rating }, (_, index) => (
+                   <Icon key={index} as={StarIcon} color="yellow.400" boxSize={4} />
+                 ))}
+               </Text>
+               <Text>
+                 <strong>Price per Day:</strong>{" "}
+                 <Icon as={FaRupeeSign} color="green.500" boxSize={4} /> {selectedCar.pricePerDay}
+               </Text>
+             </Box>
+           </Grid>
+          )}
+        </ModalBody>
+        <ModalFooter>
+          <Button colorScheme="blue" mr={3} onClick={closeModal}>
+            Close
+          </Button>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
             </div>
           )}
         </div>

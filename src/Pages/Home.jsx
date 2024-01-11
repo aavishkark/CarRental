@@ -24,7 +24,6 @@ const Home = () => {
       <WhyChoose/>
       <PopularPlaces/>
       <Reviews></Reviews>
-      <Footer/>
     </div>
   );
 };
