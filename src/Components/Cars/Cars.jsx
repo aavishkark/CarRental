@@ -16,6 +16,10 @@ import { Button, Modal, Image } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useToast } from '@chakra-ui/react'
+import { FaRupeeSign } from "react-icons/fa";
+import { StarIcon } from "@chakra-ui/icons";
+import { Icon } from '@chakra-ui/react';
+import { Skeleton, SkeletonCircle, SkeletonText } from '@chakra-ui/react'
 const Cars = () => {
 const dispatch=useDispatch()
 let month
@@ -32,6 +36,7 @@ day=new Date().getDate()
 else{
   day="0"+new Date().getDate()
 }
+  const [loading,setloading]=useState(true)
   const [start, setstart] = useState(`${day}/${month}/${new Date().getFullYear()}`);
   const [end,setend] = useState(`${day}/${month}/${new Date().getFullYear()}`)
   const [city,setcity]=useState(localStorage.getItem('rentaridecity')) 
@@ -57,8 +62,10 @@ else{
       ];
       localStorage.setItem('rentaridedate',start)
       const cars=useSelector((store)=>{return store.carsReducer.cars})
+      const isLoading=useSelector((store)=>{return store.carsReducer.isLoading})
       const navigate=useNavigate()
       useEffect(()=>{
+        console.log(isLoading)
         dispatch(getCarsByCity({city,pricesort,typeesort}))
         setstart(JSON.parse(localStorage.getItem('rentaridestartdate')))
         setend(JSON.parse(localStorage.getItem('rentarideenddate')))
@@ -105,6 +112,7 @@ else{
           localStorage.setItem('rentarideenddate',JSON.stringify(`${endday}/${endmonth}/${e.getFullYear()}`))
       }
       const handleSubmit=()=>{
+        setloading(true)
         const parts1 = start.split('/')
         const parts2= end.split('/')
         const dateObject1 = new Date(parts1[2], parts1[1] - 1, parts1[0]);
@@ -165,10 +173,9 @@ else{
           })
       }
       const toast = useToast()
-      console.log(start)
   return (
     <div className='main'>
-    <Box display="flex" flexDirection={{ base: 'column', md: 'row' }} alignItems="center" mb={4}>
+    <Box display="flex" flexDirection={{ base: 'column', md: 'row' }} alignItems="center" mb={4} justifyContent={"space-between"}>
       <Select
         onChange={changelocation}
         mr={{ base: 0, md: 2 }}
@@ -181,25 +188,27 @@ else{
           </option>
         ))}
       </Select>
-      <Select onChange={handlesortprice}>
+      <Select onChange={handlesortprice} mr={"10px"}>
         <option disabled selected>Sort By Price</option>
         <option value={'asc'}>Ascending</option>
         <option value={'desc'}>Desending</option>
       </Select>
-      <Select onChange={handletype}>
+      <Select onChange={handletype} mr={"10px"}>
       <option disabled selected>Sort By Type</option>
       <option value={'ALL'}>ALL</option>
         <option value={'SUV'}>SUV</option>
         <option value={'Sedan'}>Sedan</option>
         <option value={'Hatchback'}>Hatchback</option>
       </Select>
+      <div style={{marginRight:"10px"}}>
       <DatePicker
         className='datePicker'
         minDate={new Date()}
         placeholderText={start}
         onChange={changeStartDate}
-        mr={{ base: 0, md: 2 }}
       />
+      </div>
+      <div style={{marginRight:"10px"}}>
       <DatePicker
         className='datePicker'
         minDate={new Date()}
@@ -207,19 +216,22 @@ else{
         onChange={changeEndDate}
         mr={{ base: 0, md: 2 }}
       />
+      </div>
       <Button onClick={handleSubmit} colorScheme="teal">
         Update
       </Button>
     </Box>
-    <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)', xl: 'repeat(4, 1fr)' }} gap={4}>
+    {isLoading?<Box padding='6' boxShadow='lg' bg='white'>
+  <SkeletonCircle size='10' />
+  <SkeletonText mt='4' noOfLines={4} spacing='4' skeletonHeight='2' />
+</Box>: <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)', xl: 'repeat(4, 1fr)' }} gap={4}>
       {cars.Cars&&cars.Cars.map((car,index) => {
         let flag=false
         if(car.dates.length!=0){
           car.dates.forEach((c)=>{
-            console.log(c)
             const parseDate = (dateString) => {
               const [day, month, year] = dateString.split('/');
-              console.log(day,month,year)
+          
              // return dateString.split('/');
             }
             let start1=parseDate(c.start)
@@ -244,10 +256,10 @@ else{
                         <strong>Car:</strong> {car.name}
                       </p>
                       <p className='card-text'>
-                        <strong>Price:</strong> {car.pricePerDay}/Day
+                      <strong>Price:</strong> <Icon as={FaRupeeSign} color="green.500" boxSize={4} /> {car.pricePerDay}/Day
                       </p>
                       <p className='card-text'>
-                        <strong>Rating:</strong> {car.rating}
+                      <strong>Rating:</strong> {car.rating} <Icon as={StarIcon} color="yellow.400" boxSize={4} />
                       </p>
                       <button className='btn btn-primary bookbtn' onClick={() => handleCardClick(car, currentIndex + index)}>Book</button>
                       <button onClick={() =>handleLike(car)}><FavoriteIcon/></button>
@@ -259,7 +271,7 @@ else{
           </GridItem>
           }
           else{
-            // console.log(car)
+            
           }  
         }  
         else{
@@ -276,14 +288,15 @@ else{
                         <strong>Car:</strong> {car.name}
                       </p>
                       <p className='card-text'>
-                        <strong>Price:</strong> {car.pricePerDay}/Day
+                      <strong>Price:</strong> <Icon as={FaRupeeSign} color="green.500" boxSize={4} /> {car.pricePerDay}/Day
                       </p>
                       <p className='card-text'>
-                        <strong>Rating:</strong> {car.rating}
+                      <strong>Rating:</strong> {car.rating} <Icon as={StarIcon} color="yellow.400" boxSize={4} />
                       </p>
+                      <div style={{display:"flex",justifyContent:"space-between",margin:"auto",width:"90%"}}>
                       <button className='btn btn-primary bookbtn' onClick={() => handleCardClick(car, currentIndex + index)}>Book</button>
                       <button onClick={() =>handleLike(car)}><FavoriteIcon/></button>
-                      
+                      </div>
                     </div>
                         </div>
                       </div>
@@ -291,7 +304,7 @@ else{
           </GridItem>
         }    
 })}
-    </Grid>
+    </Grid>}
     <Modal show={isModalOpen} onHide={closeModal}>
                 <Modal.Header closeButton>
                   <Modal.Title>Car Details</Modal.Title>

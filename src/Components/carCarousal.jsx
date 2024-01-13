@@ -19,60 +19,35 @@ import {
   Text,
   Button,
   Box,
-  Grid
+  Grid,
+  Stack
 } from "@chakra-ui/react";
+import { useSelector } from 'react-redux';
+import { Skeleton } from '@chakra-ui/react'
 const CarCarousal = () => {
-    const [cars,setcars]=useState([])
-    const [page,setpage]=useState(1)
-    const [singlecar,setsinglecar]=useState([])
-    const [singlepage,setsinglepage]=useState(1)
-    const [totalcars,settotalcars]=useState()
+    const [totalcars,settotalcars]=useState([])
     const [totalpagesthree,settotalpagesthree]=useState()
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedCar, setSelectedCar] = useState(null);
+    const [from,setfrom]=useState(0)
+    const isLoading=useSelector((store)=>{return store.carsReducer.isLoading})
+    
     useEffect(()=>{
-      axios.get(`https://mock-server-rentride.onrender.com/cars`)
+      axios.get(`https://dark-jade-mite-robe.cyclic.app/cars/allcars`)
       .then((res)=>{
-        settotalcars(res.data)
-        settotalpagesthree(Math.ceil(res.data.length/3))
+        const paginatedArray = res.data.Cars.slice(from,from+3);
+        settotalcars(paginatedArray)
+        settotalpagesthree(Math.ceil(res.data.Cars.length/3))
       })
       .catch((err)=>{
         console.log(err)
       })
-        getCars()
-        getSingleCars()
-    },[page,singlepage])
-    const getCars=()=>{
-      axios.get(`https://mock-server-rentride.onrender.com/cars?_page=${page}&_limit=3`)
-      .then((res)=>{
-        setcars(res.data)
-      })
-      .catch((err)=>{
-          console.log(err)
-      })
-    }
-    const getSingleCars=()=>{
-      axios.get(`https://mock-server-rentride.onrender.com/cars?_page=${singlepage}&_limit=1`)
-      .then((res)=>{
-        setsinglecar(res.data)
-      })
-      .catch((err)=>{
-          console.log(err)
-      })
-    }
+    },[from])
     const handleprevious=()=>{
-      if(page!=1){
-        setpage((prev)=>{return prev-1})
-      }
+        setfrom((prev)=>{return prev-3})
     }
     const handlenext=()=>{
-      setpage((prev)=>{return prev+1})
-    }
-    const handleprevioussingle=()=>{
-        setsinglepage((prev)=>{return prev-1})
-    }
-    const handlenextsingle=()=>{
-      setsinglepage((prev)=>{return prev+1})
+      setfrom((prev)=>{return prev+3})
     }
     const handleCardClick=(car)=>{
       setSelectedCar(car);
@@ -82,11 +57,14 @@ const CarCarousal = () => {
       setIsModalOpen(false);
     };
   return (
-    <>
-   {cars && cars.length > 0 ? (
-        <div className='container d-none d-md-block' style={{marginTop:"100px"}}>
-          <div className='row'>
-            {cars.map((car) => (
+    isLoading?<Stack style={{marginTop:"100px",width:"90%",margin:"auto"}}>
+  <Skeleton height='150px' />
+  <Skeleton height='150px' />
+  <Skeleton height='150px' />
+</Stack>:
+<>
+<div className='row' style={{display:"flex",margin:"auto",width:"90%",justifyContent:"center"}}>
+            {totalcars&&totalcars.map((car) => (
               <div className='col-md-4 mb-4' key={car.id} onClick={() => handleCardClick(car)}>
                 <div className='card'>
                   <img src={car.photos} alt={car.name} className='card-img-top cardimg' />
@@ -103,19 +81,22 @@ const CarCarousal = () => {
                     <p className='card-text'>
                       <strong>Rating:</strong> {car.rating} <Icon as={StarIcon} color="yellow.400" boxSize={4} />
                     </p>
+                    <p className='card-text'>
+                      <strong>Type:</strong> {car.type2}
+                    </p>
                   </div>
                 </div>
               </div>
             ))}
           </div>
-          <div>
-            {page===1? <button className={`btn btn-primary prevbtn disabled`}>
+     <div>
+            {from===0? <button className={`btn btn-primary prevbtn disabled`}>
               <ArrowBackIcon />
             </button>:
              <button className={`btn btn-primary prevbtn`} onClick={handleprevious}>
              <ArrowBackIcon />
            </button>}
-           {page===totalpagesthree?<button className={`btn btn-primary nextbtn disabled`}>
+           {((from+3)/3)>=totalpagesthree?<button className={`btn btn-primary nextbtn disabled`}>
               <ArrowForwardIcon />
             </button>:
             <button className={`btn btn-primary nextbtn`} onClick={handlenext}>
@@ -123,10 +104,7 @@ const CarCarousal = () => {
           </button>}
             
           </div>
-        </div>
-      ) : null}
-
-<Modal isOpen={isModalOpen} onClose={closeModal} size="lg">
+  <Modal isOpen={isModalOpen} onClose={closeModal} size="lg">
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>
@@ -185,8 +163,7 @@ const CarCarousal = () => {
         </ModalFooter>
       </ModalContent>
     </Modal>
-  </>
-  )
+</>
+     )
 }
-
 export default CarCarousal

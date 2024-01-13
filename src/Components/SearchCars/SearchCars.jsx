@@ -118,15 +118,15 @@ const changeDate=(e)=>{
           localStorage.setItem('rentarideenddate',JSON.stringify(`${endday}/${endmonth}/${e.getFullYear()}`))
          }
        }
-      const handleSubmit=()=>{
-        localStorage.setItem('rentaridecity',city1)
+       localStorage.setItem('rentaridecity',city1)
         localStorage.setItem('rentaridestartdate',JSON.stringify(value))
         localStorage.setItem('rentarideenddate',JSON.stringify(endDate))
+      const handleSubmit=()=>{
         navigate('/cars')
       }
   return (
-    <div className='main'>
-      <div id="outer-container">
+  <div className='main1'>
+  <div id="outer-container">
   <div id="main-content">
     <div className="card">
       <h2>Welcome to Our Car Rental Service</h2>

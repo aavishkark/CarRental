@@ -1,9 +1,8 @@
 import axios from "axios"
 import { GET_CARS_BY_CITY, GET_CARS_FAIL, GET_CARS_REQ, GET_CARS_SUCCESS } from "./actionTypes"
-import { useSelector } from "react-redux"
 export const getCars=(data)=>(dispatch)=>{
     dispatch({type:GET_CARS_REQ})
-    axios.get(`https://erin-tasty-barnacle.cyclic.app/cars/allcars`)
+    axios.get(`https://dark-jade-mite-robe.cyclic.app/cars/allcars`)
      .then((res)=>{
         dispatch({type:GET_CARS_SUCCESS,payload:res.data})
      })
@@ -30,7 +29,7 @@ export const getCarsByCity=(data)=>(dispatch)=>{
       finalParams.order=data.pricesort
    }
    dispatch({type:GET_CARS_REQ})
-   axios.get(`https://erin-tasty-barnacle.cyclic.app/cars/filtercars`,
+   axios.get(`https://dark-jade-mite-robe.cyclic.app/cars/filtercars`,
    {headers:finalParams})
    .then((res)=>{
       dispatch({type:GET_CARS_BY_CITY,payload:res.data})
@@ -42,7 +41,7 @@ export const getCarsByCity=(data)=>(dispatch)=>{
 }
 
 export const addCarToLikes=(data)=>(dispatch)=>{
-    axios.get(`https://erin-tasty-barnacle.cyclic.app/users/singleuser/${data.user._id}`)
+    axios.get(`https://dark-jade-mite-robe.cyclic.app/users/singleuser/${data.user._id}`)
     .then((res)=>{
       const fav=res.data.user.favourite
       let flag=false
@@ -53,7 +52,7 @@ export const addCarToLikes=(data)=>(dispatch)=>{
       })
       if(!flag){
          fav.push(data.car._id)
-         axios.patch(`https://erin-tasty-barnacle.cyclic.app/users/update/${data.user._id}`,{favourite:fav})
+         axios.patch(`https://dark-jade-mite-robe.cyclic.app/users/update/${data.user._id}`,{favourite:fav})
          .then((res)=>{
             console.log(res)
          })

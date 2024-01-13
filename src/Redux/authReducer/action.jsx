@@ -3,7 +3,7 @@ import { POST_LOGIN_FAILURE, POST_LOGIN_REQ, POST_LOGIN_SUCCESS, POST_LOGOUT_REQ
 
 export const postLogin=(data)=>(dispatch)=>{
    dispatch({type:POST_LOGIN_REQ})
-   return axios.post(`https://erin-tasty-barnacle.cyclic.app/users/login`,{
+   return axios.post(`https://dark-jade-mite-robe.cyclic.app/users/login`,{
     email:data.email,
     password:data.password
    })

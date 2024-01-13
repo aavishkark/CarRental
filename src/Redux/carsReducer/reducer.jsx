@@ -18,7 +18,7 @@ export const carsReducer=(state=initialState,{type,payload})=>{
         case SET_USER_CITY:
             return {...state,city:payload}
         case GET_CARS_BY_CITY:
-            return {...state,cars:payload}
+            return {...state,cars:payload,isLoading:false}
         case SAVE_SINGLE_CAR:
             return {...state,singleCar:payload}
         default:

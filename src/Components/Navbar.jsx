@@ -5,8 +5,9 @@ import {
   Link,
   Button,
   useDisclosure,
+  textDecoration,
 } from '@chakra-ui/react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useDispatch } from 'react-redux';
 import { postLogout } from '../Redux/authReducer/action';
@@ -23,6 +24,7 @@ const Navbar = () => {
   const user1=useSelector((store)=>{return store.authReducer.user})
   const user = JSON.parse(localStorage.getItem('user'));
   const auth = JSON.parse(localStorage.getItem('rentaride'));
+  const navigate=useNavigate()
   const dispatch = useDispatch();
   const handleLogout = () => {
     dispatch(postLogout());
@@ -55,13 +57,13 @@ const Navbar = () => {
           flexGrow={1}
           color={"white"}
         >
-          <Link as={RouterLink} to="/" marginRight="2">
+          <Link as={RouterLink} to="/" marginRight="2" _hover={{textDecoration:"none",color: "teal.100",borderRadius:"5px"}}>
             Home
           </Link>
-          <Link as={RouterLink} to="/likes" marginRight="2">
+          <Link as={RouterLink} to="/likes" marginRight="2" _hover={{textDecoration:"none",color: "teal.100",borderRadius:"5px"}}>
             Likes
           </Link>
-          <Link as={RouterLink} to="/cars" marginRight="2">
+          <Link as={RouterLink} to='/cars' marginRight="2" _hover={{textDecoration:"none",color: "teal.100",borderRadius:"5px"}}>
             Cars
           </Link>
           {auth && (
@@ -70,9 +72,11 @@ const Navbar = () => {
                 to="/profile"
                 marginRight="2"
                 display="flex"
+                _hover={{textDecoration:"none",color: "teal.100",borderRadius:"5px"}}
               >
-                <AccountCircleIcon />
-                {`${user.username}`}
+                Profile
+                {/* <AccountCircleIcon />
+                {`${user.username}`} */}
               </Link>
           )}
           {auth && (
@@ -81,12 +85,13 @@ const Navbar = () => {
                 to="/"
                 marginRight="2"
                 onClick={handleLogout}
+                _hover={{textDecoration:"none",color: "teal.100",borderRadius:"5px"}}
               >
                 Logout
               </Link>
           )}
           {!auth && (
-            <Link as={RouterLink} to="/login" marginRight="2">
+            <Link as={RouterLink} to="/login" marginRight="2" _hover={{textDecoration:"none",color: "teal.100",borderRadius:"5px"}}>
               Log In
             </Link>
           )}

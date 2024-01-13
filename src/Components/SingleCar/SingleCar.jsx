@@ -23,6 +23,8 @@ import {
   import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import 'react-datepicker/dist/react-datepicker.css';
+import { StarIcon } from "@chakra-ui/icons";
+import { Icon } from '@chakra-ui/react';
 const SingleCar = () => {
   let month
 if(new Date().getMonth()+1>9){
@@ -151,19 +153,16 @@ else{
       }
     }
   return (
-    <Box p={4} maxW="xl" borderWidth="1px" borderRadius="lg">
+    <Box p={4} maxW="xl" m={"5%"} display={"flex"} margin={"auto"} width={"100%"} justifyContent={"center"}  mt={"3%"} mb={"3%"}>
     <Flex direction={{ base: 'column', md: 'row' }}>
-      <Box>
-        <Image
+      <Box flex="1" pl={{ base: 0, md: 4 }} textAlign={"start"} >
+      <Image
           src={product.photos}
           alt={product.name}
           borderRadius="lg"
           objectFit="cover"
           maxH="200px"
         />
-      </Box>
-      <Spacer />
-      <Box flex="1" pl={{ base: 0, md: 4 }}>
         <Text fontSize="2xl" fontWeight="bold" mb={2}>
           {product.name}
         </Text>
@@ -179,43 +178,44 @@ else{
           </Badge>
         </Stack>
         <Stack direction="row" spacing={2} mb={2}>
-          <Text fontSize="md">
-            Rating: {product.rating} ({product.trips} trips)
-          </Text>
+        <Badge colorScheme="yellow" fontSize="sm">
+        {product.rating}  <Icon as={StarIcon} color="yellow.400" boxSize={4} />
+        </Badge>
+        <Badge colorScheme="green" fontSize="sm">
+          {product.trips} Trips
+        </Badge>
         </Stack>
-        <Text fontSize="xl" fontWeight="bold" color="teal.500" mb={2}>
+        <Text fontSize="l" fontWeight="bold" color="teal.500" mb={2}>
           ₹{product.pricePerDay}/Day
         </Text>
-        <Flex direction={{ base: 'column', md: 'row' }} align="center">
+        <Flex align="center" >
           {product.fastag && (
             <Badge colorScheme="green" mb={{ base: 2, md: 0, mr: 2 }}>
-              FASTag Available
+              FASTag
             </Badge>
           )}
           <Badge colorScheme={product.avialable === 'true' ? 'green' : 'red'}>
             {product.avialable === 'true' ? 'Available' : 'Not Available'}
           </Badge>
         </Flex>
-        <Button colorScheme="teal" mt={4} onClick={handleBook}>
-          Book Now
-        </Button>
-      </Box>
-    </Flex>
-   <label>Start</label>
-   <br/>
+        <Box p={0}>
+        <label style={{fontWeight:"bold"}}>Start</label>
+   <div style={{border:"1px solid black",width:"max-content"}}>
    <DatePicker
         minDate={new Date()}
         placeholderText={startday}
         onChange={changeStartDate}
-      />
+        />
+   </div>
+   <label style={{fontWeight:"bold"}}>End</label>
    <br/>
-   <label>End</label>
-   <br/>
+   <div style={{border:"1px solid black",width:"max-content"}}>
    <DatePicker
         minDate={new Date()}
         placeholderText={endday}
         onChange={changeEndDate}
       />
+   </div>
    <AlertDialog
         isOpen={isOpen}
         leastDestructiveRef={cancelRef}
@@ -223,7 +223,6 @@ else{
         isCentered
       >
         <AlertDialogOverlay />
-
         <AlertDialogContent>
           <AlertDialogBody>
             Please Select start date and end date
@@ -235,6 +234,12 @@ else{
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+        </Box>
+        <Button color="blue.400"  mt={4} onClick={handleBook}>
+          Book Now
+        </Button>
+      </Box>
+    </Flex>
   </Box>
     
   )

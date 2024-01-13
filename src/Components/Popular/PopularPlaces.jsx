@@ -1,30 +1,32 @@
 import React from 'react'
-import {Box,Image,Grid,Select
+import {Box,Image,Grid,Select, GridItem
 } from '@chakra-ui/react';
+import { useSelector } from 'react-redux';
 const PopularPlaces = () => {
-  let location="Pune"
+  const location=useSelector((store)=>{ return store.carsReducer.city})
+  const city=localStorage.getItem('rentaridecity') || location
   return (
-    <Grid templateColumns="repeat(2, 1fr)" gap="2">
-    <Box>
+    <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(2, 1fr)', xl: 'repeat(2, 1fr)' }} gap={4}>
+    <GridItem>
       <Select
         defaultValue="default1"
-        icon={<Image src="https://doav52ie4cv60.cloudfront.net/images/renters-ico.svg" boxSize="20px"  fontSize={"150%"}  />}
+        icon={<Image src="https://doav52ie4cv60.cloudfront.net/images/renters-ico.svg" boxSize="10px"  fontSize={"50px"}  />}
         placement="bottom-start"
         style={{width:"90%"}}
       >
         <option value="default1" disabled>
-          {`Best Places To Visit near ${location}`}
+          {`Best Places To Visit near ${city}`}
         </option>
         <option value="option1">Shaniwar Wada</option>
         <option value="option2">Aga Khan Palace</option>
         <option value="option3">Rasalgad</option>
       </Select>
-    </Box>
+    </GridItem>
 
-    <Box >
+    <GridItem >
       <Select
         defaultValue="default2"
-        icon={<Image src="https://doav52ie4cv60.cloudfront.net/images/earn-ico.svg" boxSize="20px"  fontSize={"150%"} />}
+        icon={<Image src="https://doav52ie4cv60.cloudfront.net/images/earn-ico.svg" boxSize="10px"  fontSize={"50px"} />}
         placement="bottom"
         style={{width:"90%"}}
       >
@@ -35,11 +37,11 @@ const PopularPlaces = () => {
         <option value="option2">Ratnagiri</option>
         <option value="option3">Lonavla</option>
       </Select>
-    </Box>
-    <Box>
+    </GridItem>
+    <GridItem>
       <Select
         defaultValue="default3"
-        icon={<Image src="https://doav52ie4cv60.cloudfront.net/images/get-paid-ico.svg" boxSize="20px"  fontSize={"150%"}  />}
+        icon={<Image src="https://doav52ie4cv60.cloudfront.net/images/get-paid-ico.svg" boxSize="10px"  fontSize={"50px"}  />}
         placement="bottom"
         style={{width:"90%"}}
       >
@@ -50,11 +52,11 @@ const PopularPlaces = () => {
         <option value="option2">Hinjewadi</option>
         <option value="option3">Baner</option>
       </Select>
-    </Box>
-    <Box>
+    </GridItem>
+    <GridItem>
       <Select
         defaultValue="default4"
-        icon={<Image src="https://doav52ie4cv60.cloudfront.net/images/car-price-ico.svg" boxSize="20px" fontSize={"150%"}  />}
+        icon={<Image src="https://doav52ie4cv60.cloudfront.net/images/car-price-ico.svg" boxSize="10px" fontSize={"50px"}  />}
         placement="bottom"
         style={{width:"90%"}}
       >
@@ -65,7 +67,7 @@ const PopularPlaces = () => {
         <option value="option2">Symbiosis</option>
         <option value="option3">COEP</option>
       </Select>
-    </Box>
+    </GridItem>
   </Grid>
 
   )

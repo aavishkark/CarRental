@@ -1,30 +1,17 @@
 import React from 'react';
-import {
-    MDBBtn,
-    MDBCard,
-    MDBCardBody,
-    MDBCol,
-    MDBContainer,
-    MDBInput,
-    MDBRow,
-  } from "mdb-react-ui-kit";
   import {
-    AlertDialog,
-    AlertDialogBody,
-    AlertDialogFooter,
-    AlertDialogContent,
-    AlertDialogOverlay,
     useDisclosure,
-    Button
+    Divider
   } from '@chakra-ui/react';
+  import { Box,Flex,Image,Text,Badge,Stack } from '@chakra-ui/react';
+  import { StarIcon } from "@chakra-ui/icons";
+import { Icon } from '@chakra-ui/react';
 import './billing.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 const BillingPage = () => {
    // const car=useSelector((store)=>{return store.carsReducer.singleCar})
-   const { isOpen, onOpen, onClose } = useDisclosure();
-   const cancelRef = React.useRef();
-   const navigate=useNavigate()
+   const {  onOpen } = useDisclosure();
     const car=JSON.parse(localStorage.getItem('rentaridesinglecar'))
     const dates=JSON.parse(localStorage.getItem('startenddates'))
     const date1 = dates.start
@@ -35,15 +22,11 @@ const BillingPage = () => {
     const dateObject1 = new Date(parts1[2], parts1[1] - 1, parts1[0]);
     const dateObject2 = new Date(parts2[2], parts2[1] - 1, parts2[0]);
     const timeDiff = dateObject2 - dateObject1;
-
-    // Convert milliseconds to days
     const daysDiff = timeDiff / (1000 * 3600 * 24);
-  
-    // Return the difference in days
     console.log(Math.abs(Math.round(daysDiff)))
     const handlePay=()=>{
         onOpen()
-        axios.patch(`https://erin-tasty-barnacle.cyclic.app/cars/updatecar/${car._id}`,
+        axios.patch(`https://dark-jade-mite-robe.cyclic.app/cars/updatecar/${car._id}`,
         {dates:[dates]})
         .then((res)=>{
            console.log(res)
@@ -52,119 +35,113 @@ const BillingPage = () => {
           console.log(err)
         })
     }
-    const handleClose=()=>{
-        onClose()
-        navigate('/')
-    }
   return (
     <>
-     <div>
-    <div key={car.name} className="col mb-4">
-                    <div className="card h-100">
-                    <div className="card-body">
-                      <img src={car.photos} alt={car.name} className='card-img-top cardimg' />
-                  <div className='card-body cardinfo'>
-                    <p className='card-text'>
-                      <strong>City:</strong> {car.city}
-                    </p>
-                    <p className='card-text'>
-                      <strong>Car:</strong> {car.name}
-                    </p>
-                    <p className='card-text'>
-                      <strong>Price:</strong> {car.pricePerDay}/Day
-                    </p>
-                    <p className='card-text'>
-                      <strong>Rating:</strong> {car.rating}
-                    </p>
-                  </div>
-                      </div>
-                    </div>
-                  </div>
-       {`start date:${date1}
-        End date:${date2}
-        total days:${Math.abs(Math.round(daysDiff))+1}
-        total:${Math.abs(Math.round(daysDiff))+1}*${car.pricePerDay}
-        To pay:${(Math.abs(Math.round(daysDiff))+1)*(car.pricePerDay)}
-        `}
+     <Box m={"5%"}>
+     <Text fontSize={"large"} bg={"blue.800"} color={"white"} padding={"10px"} w={"26%"} textAlign={"start"} borderRadius={"10px"}>Booking Details</Text>
+    <Flex direction={{ base: 'column', md: 'row' }} mb={"1%"}>
+      <Box textAlign={"start"} >
+      <Image
+          src={car.photos}
+          alt={car.name}
+          borderRadius="lg"
+          objectFit="cover"
+          maxH="200px"
+        />
+        <Text fontSize="2xl" fontWeight="bold" mb={2}>
+          {car.name}
+        </Text>
+        <Stack direction="row" spacing={2} mb={2}>
+          <Badge colorScheme="teal" fontSize="sm">
+            {car.type1}
+          </Badge>
+          <Badge colorScheme="blue" fontSize="sm">
+            {car.fuel}
+          </Badge>
+          <Badge colorScheme="purple" fontSize="sm">
+            {car.seats} Seats
+          </Badge>
+        </Stack>
+        <Stack direction="row" spacing={2} mb={2}>
+        <Badge colorScheme="yellow" fontSize="sm">
+        {car.rating}  <Icon as={StarIcon} color="yellow.400" boxSize={4} />
+        </Badge>
+        <Badge colorScheme="green" fontSize="sm">
+          {car.trips} Trips
+        </Badge>
+        </Stack>
+        <Text fontSize="l" fontWeight="bold" color="teal.500" mb={2}>
+          ₹{car.pricePerDay}/Day
+        </Text>
+        <Flex align="center" >
+          {car.fastag && (
+            <Badge colorScheme="green" mb={{ base: 2, md: 0, mr: 2 }}>
+              FASTag
+            </Badge>
+          )}
+          <Badge colorScheme={car.avialable === 'true' ? 'green' : 'red'}>
+            {car.avialable === 'true' ? 'Available' : 'Not Available'}
+          </Badge>
+        </Flex>
+      </Box>
+    </Flex>
+    <Box textAlign={"start"} display={"flex"} flexDirection={"column"} width={"fit-content"} justifyContent={"flex-start"} bg={"purple.400"} borderRadius={"10px"} color={"white"} p={"1%"}>
+    <Text fontWeight={"bold"} marginBottom={"0px"}>Start Date: {date1}</Text>
+    <Text fontWeight={"bold"} marginBottom={"0px"}>End Date: {date2}</Text>
+    <Text fontWeight={"bold"} marginBottom={"0px"}>Total Days: {Math.abs(Math.round(daysDiff))+1}</Text>
+    <Text fontWeight={"bold"} marginBottom={"0px"}>Total: {Math.abs(Math.round(daysDiff))+1}*₹{car.pricePerDay}</Text>
+    <Text fontWeight={"bold"} marginBottom={"0px"}>To Pay: {(Math.abs(Math.round(daysDiff))+1)*(car.pricePerDay)}</Text>
+  </Box>
+  </Box>
+  <Box m={"5%"}>
+    <Text fontSize={"large"} bg={"blue.800"} color={"white"} padding={"10px"} w={"26%"} textAlign={"start"} borderRadius={"10px"}>Enter Your Card Details Below & Click Pay</Text>
+  <form class="credit-card">
+  <div class="form-body">
+    <input type="text" class="card-number" placeholder="Card Number"/>
+    <div class="date-field">
+      <div class="month">
+        <select name="Month">
+          <option value="january">January</option>
+          <option value="february">February</option>
+          <option value="march">March</option>
+          <option value="april">April</option>
+          <option value="may">May</option>
+          <option value="june">June</option>
+          <option value="july">July</option>
+          <option value="august">August</option>
+          <option value="september">September</option>
+          <option value="october">October</option>
+          <option value="november">November</option>
+          <option value="december">December</option>
+        </select>
+      </div>
+      <div class="year">
+        <select name="Year">
+          <option value="2016">2016</option>
+          <option value="2017">2017</option>
+          <option value="2018">2018</option>
+          <option value="2019">2019</option>
+          <option value="2020">2020</option>
+          <option value="2021">2021</option>
+          <option value="2022">2022</option>
+          <option value="2023">2023</option>
+          <option value="2024">2024</option>
+        </select>
+      </div>
     </div>
-    <MDBContainer fluid className="py-5 gradient-custom">
-      <MDBRow className="d-flex justify-content-center py-5">
-        <MDBCol md="7" lg="5" xl="4">
-          <MDBCard style={{ borderRadius: "15px" }}>
-            <MDBCardBody className="p-4">
-              <MDBRow className="d-flex align-items-center">
-                <MDBCol size="9">
-                  <MDBInput
-                    label="Card Number"
-                    id="form1"
-                    type="text"
-                    placeholder="1234 5678 9012 3457"
-                  />
-                </MDBCol>
-                <MDBCol size="3">
-                  <img
-                    src="https://img.icons8.com/color/48/000000/visa.png"
-                    alt="visa"
-                    width="64px"
-                  />
-                </MDBCol>
-
-                <MDBCol size="9">
-                  <MDBInput
-                    label="Cardholder's Name"
-                    id="form2"
-                    type="text"
-                    placeholder="Cardholder's Name"
-                  />
-                </MDBCol>
-
-                <MDBCol size="6">
-                  <MDBInput
-                    label="Expiration"
-                    id="form2"
-                    type="text"
-                    placeholder="MM/YYYY"
-                  />
-                </MDBCol>
-                <MDBCol size="3">
-                  <MDBInput
-                    label="CVV"
-                    id="form2"
-                    type="text"
-                    placeholder="&#9679;&#9679;&#9679;"
-                  />
-                </MDBCol>
-                <MDBCol size="3">
-                  <MDBBtn color="info" rounded size="lg" onClick={handlePay}>
-                    Pay
-                  </MDBBtn>
-                </MDBCol>
-              </MDBRow>
-            </MDBCardBody>
-          </MDBCard>
-        </MDBCol>
-      </MDBRow>
-    </MDBContainer>
-    <AlertDialog
-        isOpen={isOpen}
-        leastDestructiveRef={cancelRef}
-        onClose={onClose}
-        isCentered
-      >
-        <AlertDialogOverlay />
-
-        <AlertDialogContent>
-          <AlertDialogBody>
-            Payment Successfull You will be redirected to home
-          </AlertDialogBody>
-          <AlertDialogFooter>
-            <Button ref={cancelRef} onClick={handleClose}>
-              OK
-            </Button>
-            {/* Additional buttons or actions can be added here */}
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+    <div class="card-verification">
+      <div class="cvv-input">
+        <input type="text" placeholder="CVV"/>
+      </div>
+      <div class="cvv-details">
+        <p>3 or 4 digits usually found <br/> on the signature strip</p>
+      </div>
+    </div>
+    <button type="submit" class="proceed-btn"><a href="#">Proceed</a></button>
+    <button type="submit" class="paypal-btn"><a href="#">Pay With</a></button>
+  </div>
+</form>
+  </Box>
     </>
   );
 };

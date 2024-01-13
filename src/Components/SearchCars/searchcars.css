@@ -7,7 +7,9 @@
     justify-content: center;
     align-items: center;
   }
-  
+  .main1{
+    margin-bottom: 5%;
+  }
   #main-content {
     width: 50%;
     margin: 0 auto;
