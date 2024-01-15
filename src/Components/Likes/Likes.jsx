@@ -62,8 +62,6 @@ const Likes = () => {
   const handleRemove=(car)=>{
     setloading(true)
   const filteredlikes=[]
-  console.log(car._id)
-  console.log(user.favourite)
   user.favourite.forEach((e)=>{
       if(e!=car._id){
         filteredlikes.push(e)

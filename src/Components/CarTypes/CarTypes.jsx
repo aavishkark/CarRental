@@ -78,7 +78,6 @@ const CarTypes = () => {
     const prevCards = () => {
       setFrom((prev)=>{return prev-3})
     };
-    console.log(isError)
     return (
         <div className="container-fluid">
           <Nav variant="tabs" className="justify-content-around align-items-center py-4">
@@ -113,14 +112,15 @@ const CarTypes = () => {
   <SkeletonText mt='4' noOfLines={4} spacing='4' skeletonHeight='2' />
 </Box>
 </Stack>:
-      <div className='row' style={{display:"flex",margin:"auto",width:"90%",justifyContent:"center"}}>
+
+<div className='row' style={{display:"flex",margin:"auto",width:"90%",justifyContent:"center"}}>
         {isError?<Alert status='error'>
   <AlertIcon />
   <AlertTitle>Server Error</AlertTitle>
   <AlertDescription>Your Request could not be resolved, please try agian later</AlertDescription>
 </Alert>:""}
       {labelCars&&labelCars.map((car) => (
-        <div className='col-md-4 mb-4' key={car.id} onClick={() => handleCardClick(car)}>
+        <div className='col-md-4 mb-4' key={car._id} onClick={() => handleCardClick(car)}>
           <div className='card'>
             <img src={car.photos} alt={car.name} className='card-img-top cardimg' />
             <div className='card-body cardinfo'>

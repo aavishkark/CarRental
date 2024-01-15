@@ -3,8 +3,9 @@ import {Box,Flex,Heading,Text,Image} from '@chakra-ui/react';
 function HoWToBook() {
   
     return (
-     <div className="container-fluid bg-light-emphasis rounded-md shadow-md w-90%" style={{boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",width:"90%",fontFamily:"monospace",marginTop:"100px"}}>
+      <div style={{marginTop:"100px"}}>
       <h2 className="text-center text-black m-10 fs-1">How to Book a Car</h2>
+     <div className="container-fluid bg-light-emphasis rounded-md shadow-md w-90%" style={{boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",width:"90%",fontFamily:"monospace"}}>
       <div className="d-flex justify-content-around align-items-center flex-wrap">
         <div className="text-center bg-white p-4 rounded-md shadow-xl m-2">
           <img src="https://www.zoomcar.com/img/download.png" alt="Step 1" className="img-fluid rounded-full" style={{width:"70%"}}/>
@@ -26,6 +27,7 @@ function HoWToBook() {
           <p className="mt-5 fs-5 text-info">Confirm and Enjoy</p>
         </div>
       </div>
+    </div>
     </div>
     );
   }

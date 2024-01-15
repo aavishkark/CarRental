@@ -9,7 +9,7 @@ export const postLogin=(data)=>(dispatch)=>{
    })
    .then((res)=>{
     if(res.data.msg==='Login Successfull'){
-        console.log(res.data)
+        
          localStorage.setItem('rentaride',true)
          let data=JSON.stringify(res.data.user)
          localStorage.setItem('user',data)
@@ -24,7 +24,7 @@ export const postLogin=(data)=>(dispatch)=>{
     }
    })
    .catch((err)=>{
-    console.log(err)
+    
      localStorage.setItem('rentaride',false)
      dispatch({type:POST_LOGIN_FAILURE,payload:{msg:err}})
    })

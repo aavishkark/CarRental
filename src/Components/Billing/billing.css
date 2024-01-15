@@ -1,0 +1,36 @@
+.date-field{
+    display: flex;
+    width: 50%;
+    margin: auto;
+    justify-content: space-around;
+}
+.credit-card{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: start;
+    padding: 7%;
+    border: 3px solid black;
+    border-radius: 5px;
+}
+.form-body{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: start;
+    text-align: start;
+}
+.date-field{
+    display: flex;
+    width: 100%;
+    justify-content: start;
+    margin: auto;
+}
+.pay-btn{
+    width: 20%;
+    text-align: center;
+    padding: 3%;
+    border-radius: 10px;
+    background-color: rgb(10, 196, 10);
+    color: aliceblue;
+}

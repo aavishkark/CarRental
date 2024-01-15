@@ -27,22 +27,22 @@ function Footer() {
       justifyContent={"space-around"}
     >
       <Link to="/about" as={RouterLink} _hover={{color:"blue.400"}}>
-        <Button colorScheme="teal" variant="soft-rounded" isFitted>
+        <Button colorScheme="teal" variant="soft-rounded">
           About Us
         </Button>
       </Link>
       <Link to="/careers"as={RouterLink} _hover={{color:"blue.400"}}>
-        <Button colorScheme="teal" variant="soft-rounded" isFitted>
+        <Button colorScheme="teal" variant="soft-rounded">
           CAREERS
         </Button>
       </Link>
       <Link to="/blogs" as={RouterLink} _hover={{color:"blue.400"}}>
-        <Button colorScheme="teal" variant="soft-rounded" isFitted>
+        <Button colorScheme="teal" variant="soft-rounded">
           BLOGS
         </Button>
       </Link>
       <Link to="/help" as={RouterLink} _hover={{color:"blue.400"}}>
-        <Button colorScheme="teal" variant="soft-rounded" isFitted>
+        <Button colorScheme="teal" variant="soft-rounded">
           HELP & SUPPORT
         </Button>
       </Link>

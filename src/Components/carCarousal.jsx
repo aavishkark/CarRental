@@ -62,10 +62,10 @@ const CarCarousal = () => {
   <Skeleton height='150px' />
   <Skeleton height='150px' />
 </Stack>:
-<>
+<div>
 <div className='row' style={{display:"flex",margin:"auto",width:"90%",justifyContent:"center"}}>
             {totalcars&&totalcars.map((car) => (
-              <div className='col-md-4 mb-4' key={car.id} onClick={() => handleCardClick(car)}>
+              <div className='col-md-4 mb-4' key={car._id} onClick={() => handleCardClick(car)}>
                 <div className='card'>
                   <img src={car.photos} alt={car.name} className='card-img-top cardimg' />
                   <div className='card-body cardinfo'>
@@ -163,7 +163,7 @@ const CarCarousal = () => {
         </ModalFooter>
       </ModalContent>
     </Modal>
-</>
+</div>
      )
 }
 export default CarCarousal

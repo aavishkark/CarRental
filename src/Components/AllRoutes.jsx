@@ -14,6 +14,7 @@ import Careers from '../Pages/Careers'
 import BlogPage from '../Pages/BlogPage'
 import HelpPage from '../Pages/HelpPage'
 import AboutUsPage from '../Pages/AboutusPage'
+import BillingPrivateRoute from './BillingPrivateRoute'
 
 const AllRoutes = () => {
   return (
@@ -26,7 +27,7 @@ const AllRoutes = () => {
         <Route path='/signup' element={<SignUp/>}></Route>
         <Route path='/profile' element={<PrivateRoutes><Profile/></PrivateRoutes>}></Route>
         <Route path='/singlecar' element={<PrivateRoutes><SingleCar/></PrivateRoutes>}></Route>
-        <Route path='/billing' element={<PrivateRoutes><BillingPage/></PrivateRoutes>}></Route>
+        <Route path='/billing' element={<BillingPrivateRoute><BillingPage/></BillingPrivateRoute>}></Route>
         <Route path='/careers' element={<Careers/>}></Route>
         <Route path='/blogs' element={<BlogPage/>}></Route>
         <Route path='/help' element={<HelpPage/>}></Route>

@@ -5,11 +5,9 @@ import {
     Flex,
     Text,
     Badge,
-    Spacer,
     Button,
     Stack,
   } from '@chakra-ui/react';
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@chakra-ui/react'
 import {
@@ -62,6 +60,7 @@ else{
             } 
             let newDates=JSON.stringify(dates)
             localStorage.setItem('startenddates',newDates)
+            localStorage.setItem('rentaridebillinginfo',newDates)
             navigate('/billing')  
         }
         
@@ -83,12 +82,12 @@ else{
       }
       const parts1 = [startday,startmonth,e.getFullYear()]
       const parts2= endday.split('/')
-      console.log(parts1,parts2)
+      
       const dateObject1 = new Date(parts1[2], parts1[1] - 1, parts1[0]);
       const dateObject2 = new Date(parts2[2], parts2[1] - 1, parts2[0]);
       const timeDiff = dateObject2 - dateObject1;
       const daysDiff = (timeDiff / (1000 * 3600 * 24));
-      console.log(daysDiff)
+     
       if(daysDiff<0){
         toast({
           description: "Start Day Should be Less Then End Day",

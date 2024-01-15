@@ -46,7 +46,6 @@ else{
   const [currentIndex, setCurrentIndex] = useState(0);
   const [pricesort,setpricesort]=useState(null)
   const [typeesort,settype]=useState(null)
-  const [filtered,setfiltered]=useState([])
   const flag=useRef(false)
   const topTenCities = [
         'Mumbai',
@@ -65,7 +64,6 @@ else{
       const isLoading=useSelector((store)=>{return store.carsReducer.isLoading})
       const navigate=useNavigate()
       useEffect(()=>{
-        console.log(isLoading)
         dispatch(getCarsByCity({city,pricesort,typeesort}))
         setstart(JSON.parse(localStorage.getItem('rentaridestartdate')))
         setend(JSON.parse(localStorage.getItem('rentarideenddate')))
@@ -123,7 +121,7 @@ else{
           toast({
             description: "End Day should be Greater Than Start Day",
             status: 'error',
-            duration: 9000,
+            duration: 3000,
             isClosable: true,
           })
         }
@@ -131,7 +129,7 @@ else{
           toast({
             description: "You Can Rent A Car For Maximum One Week",
             status: 'error',
-            duration: 9000,
+            duration: 3000,
             isClosable: true,
           })
         }
@@ -139,7 +137,7 @@ else{
           toast({
             description: "Update successfull",
             status: 'success',
-            duration: 9000,
+            duration: 3000,
             isClosable: true,
           })
         dispatch(getCarsByCity({city,pricesort,typeesort}))
@@ -168,7 +166,7 @@ else{
         toast({
             description: "Added To Your Favourites",
             status: 'success',
-            duration: 9000,
+            duration: 3000,
             isClosable: true,
           })
       }
@@ -181,7 +179,7 @@ else{
         mr={{ base: 0, md: 2 }}
         mb={{ base: 2, md: 0 }}
       >
-        <option value={"Select City"} disabled selected>Select City</option>
+        <option value={"Select City"} disabled selected >Select City</option>
         {topTenCities.map((city) => (
           <option key={city} value={city}>
             {city}

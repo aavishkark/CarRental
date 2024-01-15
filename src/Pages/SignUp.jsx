@@ -107,7 +107,7 @@ export default function SignUp() {
           name="city"
           select
           label="Select City"
-          defaultValue="Mumbai"
+          value="Mumbai"
         >
           {city.map((option) => (
             <MenuItem key={option} value={option}>

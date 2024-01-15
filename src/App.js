@@ -5,7 +5,7 @@ import AllRoutes from './Components/AllRoutes';
 import Footer from './Components/Footer/Footer';
 function App() {
   return (
-    <div className="App">
+    <div className="App" style={{fontFamily:"monospace"}}>
      <Navbar></Navbar>
      <AllRoutes></AllRoutes>
      <Footer/>
