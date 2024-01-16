@@ -28,8 +28,12 @@ const BillingPage = () => {
     const dateObject2 = new Date(parts2[2], parts2[1] - 1, parts2[0]);
     const timeDiff = dateObject2 - dateObject1;
     const daysDiff = timeDiff / (1000 * 3600 * 24);
-    const handlePay=()=>{
+    console.log(user.activeRides)
+    const handlePay=(e)=>{
+      e.preventDefault()
+     
         if(cardnum.length<16 || cvv.length<3 || year.length<2){
+          console.log("Hiii")
           toast({
             title: 'Wrong Details',
             description: "Please Enter Correct Card Detals.",
@@ -42,9 +46,10 @@ const BillingPage = () => {
         axios.patch(`https://dark-jade-mite-robe.cyclic.app/cars/updatecar/${car._id}`,
         {dates:[...car.dates,dates]})
         .then((res)=>{
-         
+         console.log(res)
         })
         .catch((err)=>{
+          console.log(err)
           toast({
             title: 'Server Error',
             description: `${err}`,
@@ -54,8 +59,9 @@ const BillingPage = () => {
           })
         })
         axios.patch(`https://dark-jade-mite-robe.cyclic.app/users/update/${user._id}`,
-        {activeRides:[...user.activeRides,[{dates:dates,id:car._id}]]})
+        {activeRides:[...user.activeRides]})
         .then((res)=>{
+          console.log(res)
           toast({
             title: 'Payment Successfull',
             description: "You Will Be Redirected To Home Page",
@@ -68,6 +74,7 @@ const BillingPage = () => {
           nav('/')
         })
         .catch((err)=>{
+          console.log(err)
           toast({
             title: 'Server Error',
             description: `${err}`,
@@ -172,7 +179,7 @@ const BillingPage = () => {
         <p>3 digits usually found on the signature strip</p>
       </div>
     </div>
-    <button type="submit" className="pay-btn" onClick={handlePay}>Pay</button>
+    <button className="pay-btn" onClick={handlePay}>Pay</button>
   </div>
 </form>
   </GridItem>

@@ -19,40 +19,38 @@ import {
 } from '@chakra-ui/react';
 const Likes = () => {
   const [loading,setloading]=useState(true)
+  const [flag,setflag]=useState(false)
   const [error,seterror]=useState(false)
   const [length,setlength]=useState()
-  const user=JSON.parse(localStorage.getItem('user'))
+  const [userid,setuserid]=useState(localStorage.getItem('userid'))
+  const [user,setuser]=useState(JSON.parse(localStorage.getItem('user')))
   const [fav,setfav]=useState([])
+  const [cars,setcars]=useState([])
   const dispatch=useDispatch()
   const navigate=useNavigate()
   const [selectedCar, setSelectedCar] = useState(null);
   useEffect(()=>{
-  axios.get(`https://dark-jade-mite-robe.cyclic.app/users/singleuser/${user._id}`)
-  .then((res)=>{
-    if(res.data.user.favourite.length!=0){
+    console.log(userid)
+    axios.get(`https://dark-jade-mite-robe.cyclic.app/users/singleuser/${userid}`)
+    .then((res)=>{
+      console.log(res,"useeffect",1)
+      setfav(res.data.user.favourite)
       axios.get(`https://dark-jade-mite-robe.cyclic.app/cars/getlikes`,{headers:{"hello":res.data.user.favourite}})
       .then((res)=>{
-        setfav(res.data.cars)
-        setloading(false)
-        seterror(false)
-      })
-      .catch((err)=>{
-        setloading(false)
-        seterror(true)
-        console.log(err)
-      })
-    }
-    else{
+        console.log(res,"useEffect",2)
+        setcars(res.data.cars)
+     })
+     .catch((err)=>{
+       setloading(false)
+       seterror(true)
+       console.log(err)
+     })
       setloading(false)
-      setlength(true)
-    }
-  })
-  .catch((err)=>{
-    setloading(false)
-    seterror(true)
-    console.log(err)
-  })
-  },[user])
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
+  },[])
   const handleCardClick = (car) => {
     setSelectedCar(car);
     dispatch({type:SAVE_SINGLE_CAR,payload:car})
@@ -60,30 +58,44 @@ const Likes = () => {
     navigate('/singlecar')
   };
   const handleRemove=(car)=>{
-    setloading(true)
-  const filteredlikes=[]
-  user.favourite.forEach((e)=>{
-      if(e!=car._id){
-        filteredlikes.push(e)
-      }
-  })
-   
-   axios.patch(`https://dark-jade-mite-robe.cyclic.app/users/update/${user._id}`,
-   {favourite:filteredlikes})
-   .then((res)=>{
-    setloading(false)
-    seterror(false)
-    if(res.data.user.favourite.length){
-     setlength(true)
-    }
-    dispatch(saveUserData(res.data.user))
-    setfav(res.data.user.favourite)
+   const filteredlikes=[]
+   fav.forEach((e)=>{
+       if(e!=car._id){
+         filteredlikes.push(e)
+       }
+   })
+   setfav(filteredlikes)
+   if(filteredlikes.length!=0){
+    axios.patch(`https://dark-jade-mite-robe.cyclic.app/users/update/${user._id}`,
+    {favourite:filteredlikes})
+    .then((res)=>{
+      console.log(res,filteredlikes,"remove")
+      axios.get(`https://dark-jade-mite-robe.cyclic.app/cars/getlikes`,{headers:{"hello":res.data.user.favourite}})
+      .then((res)=>{
+        console.log(res,3)
+        setcars(res.data.cars)
+     })
+     .catch((err)=>{
+       setloading(false)
+       seterror(true)
+       console.log(err)
+     })
    })
    .catch((err)=>{
-    setloading(false)
-    seterror(true)
     console.log(err)
    })
+   }
+   else{
+    axios.patch(`https://dark-jade-mite-robe.cyclic.app/users/update/${user._id}`,
+    {favourite:filteredlikes})
+    .then((res)=>{
+      console.log(res,filteredlikes,"remove")
+   })
+   .catch((err)=>{
+    console.log(err)
+   })
+   }
+    
   }
   return (
     <div style={{margin:"5%"}}>
@@ -91,10 +103,10 @@ const Likes = () => {
   <SkeletonCircle size='10' />
   <SkeletonText mt='4' noOfLines={4} spacing='4' skeletonHeight='2' />
 </Box>: <div>
-  {length&&!error?<div style={{fontSize:"75px",margin:"50px",width:"100%",display:"flex",justifyContent:"center",fontFamily:"monospace"}}><WarningIcon/>You Dont Have any favourites yet</div>:
-  <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)', xl: 'repeat(4, 1fr)' }} gap={4}>
-  {fav&&fav.map((car,index) => (
-        <GridItem key={car.id} >
+  {fav.length===0&&!error?<div key={12} style={{fontSize:"75px",margin:"50px",width:"100%",display:"flex",justifyContent:"center",fontFamily:"monospace"}}><WarningIcon/>You Dont Have any favourites</div>:
+  <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)', xl: 'repeat(4, 1fr)' }} key={12} gap={4}>
+  {cars&&cars.map((car,index) => (
+        <GridItem key={index} >
           <div key={car.name} className="col mb-4">
                     <div className="card h-100">
                     <div className="card-body">

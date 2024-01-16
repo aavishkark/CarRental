@@ -54,7 +54,7 @@ export const addCarToLikes=(data)=>(dispatch)=>{
          fav.push(data.car._id)
          axios.patch(`https://dark-jade-mite-robe.cyclic.app/users/update/${data.user._id}`,{favourite:fav})
          .then((res)=>{
-            
+            console.log(res)
          })
          .catch((err)=>{
             console.log(err)

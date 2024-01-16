@@ -23,6 +23,7 @@ import {
 const Profile = () => {
     const [user,setuser]=useState(JSON.parse(localStorage.getItem('user')))
     const [likes,setlikes]=useState()
+    const [active,setactives]=useState()
     useEffect(()=>{
         axios.get(`https://dark-jade-mite-robe.cyclic.app/cars/getlikes`,
         {headers:{"hello":user.favourite}})
@@ -32,9 +33,9 @@ const Profile = () => {
         })
         .catch((err)=>{
           console.log(err)
-        }) 
+        })
+        
     },[])
-    console.log(user,likes)
   return (
 user?<Container maxW="container.lg" mt={8}>
 <Grid templateColumns={{ base: '1fr', md: '1fr 2fr' }} gap={4}>
@@ -78,7 +79,7 @@ user?<Container maxW="container.lg" mt={8}>
   {user.activeRides.length > 0 ? (
     <ul>
       {user.activeRides.map((ride, index) => (
-        <li key={index}>{ride}</li>
+       console.log(ride[0].dates)
       ))}
     </ul>
   ) : (

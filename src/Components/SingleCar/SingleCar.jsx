@@ -56,7 +56,8 @@ else{
             const differenceInDays = Math.ceil(differenceInMs / (24 * 60 * 60 * 1000));
             const dates={
                 start:startday,
-                end:endday
+                end:endday,
+                car:product
             } 
             let newDates=JSON.stringify(dates)
             localStorage.setItem('startenddates',newDates)
