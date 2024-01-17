@@ -1,5 +1,5 @@
 #outer-container {
-    background-image: url('https://cdn.motor1.com/images/mgl/BXXAQ4/s1/koenigsegg-jesko-absolut.jpg');
+    background-image: url('/public/car.jpg');
     background-size: cover;
     background-position: center;
     height: 600px;
