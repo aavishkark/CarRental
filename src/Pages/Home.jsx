@@ -39,13 +39,13 @@ const Home = () => {
         // console.log(res)
      })
      .catch((err)=>{
-     // console.log(err)
+      console.log(err)
      })
       }
       
     })
     .catch((err)=>{
-     // console.log(err)
+      console.log(err)
     })
     }
      axios.get(`https://dark-jade-mite-robe.cyclic.app/cars/allcars`)
@@ -70,12 +70,12 @@ const Home = () => {
             //  console.log(res)
             })
             .catch((err)=>{
-            // console.log(err)
+             console.log(err)
             })
       })
      })
      .catch((err)=>{
-     // console.log(err)
+      console.log(err)
      })
      dispatch(getCars());
   }, []);

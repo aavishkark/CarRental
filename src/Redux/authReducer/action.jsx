@@ -49,7 +49,7 @@ export const getUserData=(data)=>(dispatch)=>{
     const userid=localStorage.getItem('userid')
     axios.get(`https://dark-jade-mite-robe.cyclic.app/users/${userid}`)
    .then((res)=>{
-    console.log(res)
+   // console.log(res)
    })
    .catch((err)=>{
     console.log(err)

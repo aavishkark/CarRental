@@ -30,14 +30,14 @@ const Likes = () => {
   const navigate=useNavigate()
   const [selectedCar, setSelectedCar] = useState(null);
   useEffect(()=>{
-    console.log(userid)
+  //  console.log(userid)
     axios.get(`https://dark-jade-mite-robe.cyclic.app/users/singleuser/${userid}`)
     .then((res)=>{
-      console.log(res,"useeffect",1)
+     // console.log(res,"useeffect",1)
       setfav(res.data.user.favourite)
       axios.get(`https://dark-jade-mite-robe.cyclic.app/cars/getlikes`,{headers:{"hello":res.data.user.favourite}})
       .then((res)=>{
-        console.log(res,"useEffect",2)
+       // console.log(res,"useEffect",2)
         setcars(res.data.cars)
      })
      .catch((err)=>{
@@ -69,10 +69,10 @@ const Likes = () => {
     axios.patch(`https://dark-jade-mite-robe.cyclic.app/users/update/${user._id}`,
     {favourite:filteredlikes})
     .then((res)=>{
-      console.log(res,filteredlikes,"remove")
+    //  console.log(res,filteredlikes,"remove")
       axios.get(`https://dark-jade-mite-robe.cyclic.app/cars/getlikes`,{headers:{"hello":res.data.user.favourite}})
       .then((res)=>{
-        console.log(res,3)
+       // console.log(res,3)
         setcars(res.data.cars)
      })
      .catch((err)=>{
@@ -89,7 +89,7 @@ const Likes = () => {
     axios.patch(`https://dark-jade-mite-robe.cyclic.app/users/update/${user._id}`,
     {favourite:filteredlikes})
     .then((res)=>{
-      console.log(res,filteredlikes,"remove")
+     // console.log(res,filteredlikes,"remove")
    })
    .catch((err)=>{
     console.log(err)

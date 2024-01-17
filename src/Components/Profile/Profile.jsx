@@ -87,6 +87,7 @@ const Profile = () => {
       console.log(err)
      })
     }
+
   return (
 user?<Container maxW="container.lg" mt={8}>
 <Grid templateColumns={{ base: '1fr', md: '1fr 2fr' }} gap={4}>

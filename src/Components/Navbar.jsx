@@ -27,6 +27,7 @@ const Navbar = () => {
   const navigate=useNavigate()
   const dispatch = useDispatch();
   const handleLogout = () => {
+    onClose()
     dispatch(postLogout());
   };
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -57,7 +58,7 @@ const Navbar = () => {
           flexGrow={1}
           color={"white"}
         >
-          <Link as={RouterLink} to="/" marginRight="2" _hover={{textDecoration:"none",color: "teal.100",borderRadius:"5px"}}>
+          <Link as={RouterLink}  to="/" marginRight="2" _hover={{textDecoration:"none",color: "teal.100",borderRadius:"5px"}}>
             Home
           </Link>
           <Link as={RouterLink} to="/likes" marginRight="2" _hover={{textDecoration:"none",color: "teal.100",borderRadius:"5px"}}>
@@ -103,18 +104,19 @@ const Navbar = () => {
         <DrawerContent>
           <DrawerHeader borderBottomWidth='1px' bg={"#004aad"}></DrawerHeader>
           <DrawerBody bg={"#004aad"} color={"white"}>
-            <p><Link as={RouterLink} to="/" marginRight="2"  _hover={{textDecoration:"none",color: "teal.100",borderRadius:"5px"}}>
+            <p><Link as={RouterLink} onClick={onClose} to="/" marginRight="2"  _hover={{textDecoration:"none",color: "teal.100",borderRadius:"5px"}}>
             Home
           </Link></p>
-            <p> <Link as={RouterLink} to="/likes" marginRight="2"  _hover={{textDecoration:"none",color: "teal.100",borderRadius:"5px"}}>
+            <p> <Link as={RouterLink} onClick={onClose} to="/likes" marginRight="2"  _hover={{textDecoration:"none",color: "teal.100",borderRadius:"5px"}}>
             Likes
           </Link></p>
-            <p> <Link as={RouterLink} to="/cars" marginRight="2"  _hover={{textDecoration:"none",color: "teal.100",borderRadius:"5px"}}>
+            <p> <Link as={RouterLink} onClick={onClose} to="/cars" marginRight="2"  _hover={{textDecoration:"none",color: "teal.100",borderRadius:"5px"}}>
             Cars
           </Link></p>
           <p>
           {auth && (
               <Link
+              onClick={onClose}
                 as={RouterLink}
                 to="/profile"
                 marginRight="2"
@@ -138,7 +140,7 @@ const Navbar = () => {
               </Link>
           )}
           {!auth && (
-            <Link as={RouterLink} to="/login" marginRight="2" _hover={{textDecoration:"none",color: "teal.100",borderRadius:"5px"}}>
+            <Link as={RouterLink} onClick={onClose} to="/login" marginRight="2" _hover={{textDecoration:"none",color: "teal.100",borderRadius:"5px"}}>
               Log In
             </Link>
           )}

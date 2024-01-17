@@ -46,7 +46,7 @@ const BillingPage = () => {
         axios.patch(`https://dark-jade-mite-robe.cyclic.app/cars/updatecar/${car._id}`,
         {dates:[...car.dates,dates]})
         .then((res)=>{
-         console.log(res)
+        // console.log(res)
         })
         .catch((err)=>{
           console.log(err)
