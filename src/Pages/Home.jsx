@@ -57,7 +57,8 @@ const Home = () => {
           const parts = d.end.split('/');
           const date = new Date(parts[2], parts[1] - 1, parts[0]); 
           const currentDate = new Date();
-          const hasPassed = date  <= currentDate;
+          currentDate.setHours(0, 0, 0, 0);
+          const hasPassed = date  < currentDate;
           if(!hasPassed){
             newdates.push(d)
           }
