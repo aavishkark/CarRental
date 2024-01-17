@@ -49,22 +49,22 @@ User Features :
 ## Project Screenshots
 
 - Landing Page
-<img src="https://ibb.co/k4qp1DY"  width="600" >
+<img src="https://i.ibb.co/F589VYG/landingpage.png"  width="600" >
 
 - Cars Page
-<img src="https://ibb.co/1Ksshvm"  width="600" >
+<img src="https://i.ibb.co/92wwz8r/carspage.png"  width="600" >
 
 - Signup Page
-<img src="https://ibb.co/WB1QnjP"  width="600" >
+<img src="https://i.ibb.co/F8t96C0/signuppage.png"  width="600" >
 
 - SignIn Page
-<img src="https://ibb.co/Q98ky5V"  width="600" >
+<img src="https://i.ibb.co/cJbw4m9/loginpage.png"  width="600" >
 
 - Likes Page
-<img src="https://ibb.co/SyTGF0Z"  width="600" >
+<img src="https://i.ibb.co/7CcLsV0/favouritespage.png"  width="600" >
 
 - Profile Page
-<img src="https://ibb.co/ByZBcBj"  width="600" >
+<img src="https://i.ibb.co/0CMrmrZ/profilepage.png"  width="600" >
 
 
 ## Contributors
