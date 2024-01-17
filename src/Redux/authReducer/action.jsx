@@ -1,6 +1,5 @@
 import axios from "axios"
 import { POST_LOGIN_FAILURE, POST_LOGIN_REQ, POST_LOGIN_SUCCESS, POST_LOGOUT_REQ, SAVE_USER_DATA } from "./actionTypes"
-import { useToast } from '@chakra-ui/react'
 export const postLogin=(data)=>(dispatch)=>{
  
    dispatch({type:POST_LOGIN_REQ})
@@ -32,7 +31,6 @@ export const postLogin=(data)=>(dispatch)=>{
    })
 }
 export const postLogout=(data)=>(dispatch)=>{
-    const toast = useToast();
     localStorage.removeItem('user')
     localStorage.removeItem('rentaridecity')
     localStorage.removeItem('rentaridedate')
@@ -43,13 +41,6 @@ export const postLogout=(data)=>(dispatch)=>{
     localStorage.removeItem('userid')
     localStorage.setItem('rentaride',false)
     dispatch({type:POST_LOGOUT_REQ})
-    toast({
-        title: 'Logout Successfull',
-        description: "You have logged out Sucessfully",
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-      })
 }
 export const saveUserData=(data)=>(dispatch)=>{
      dispatch({type:SAVE_USER_DATA,payload:data})

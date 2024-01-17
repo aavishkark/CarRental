@@ -103,7 +103,7 @@ const Likes = () => {
   <SkeletonCircle size='10' />
   <SkeletonText mt='4' noOfLines={4} spacing='4' skeletonHeight='2' />
 </Box>: <div>
-  {fav.length===0&&!error?<div key={12} style={{fontSize:"75px",margin:"50px",width:"100%",display:"flex",justifyContent:"center",fontFamily:"monospace"}}><WarningIcon/>You Dont Have any favourites</div>:
+  {fav.length===0&&!error?<div key={12} style={{margin:"50px",width:"100%",display:"flex",justifyContent:"center",fontFamily:"monospace",height:"300px"}}><WarningIcon/>You Dont Have any favourites</div>:
   <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)', xl: 'repeat(4, 1fr)' }} key={12} gap={4}>
   {cars&&cars.map((car,index) => (
         <GridItem key={index} >
