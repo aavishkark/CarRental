@@ -10,12 +10,14 @@ import './billing.css';
 import axios from 'axios';
 import { useToast } from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom';
+import { Spinner } from '@chakra-ui/react'
 const BillingPage = () => {
    const toast = useToast();
    const [cardnum,setcardnum]=useState("")
    const [cvv,setcvv]=useState("")
    const [year,setyear]=useState("")
    const [month,setmonth]=useState("")
+   const [loading,setloading]=useState(false)
    const nav=useNavigate()
     const user=JSON.parse(localStorage.getItem('user'))
     const car=JSON.parse(localStorage.getItem('rentaridesinglecar'))
@@ -28,12 +30,9 @@ const BillingPage = () => {
     const dateObject2 = new Date(parts2[2], parts2[1] - 1, parts2[0]);
     const timeDiff = dateObject2 - dateObject1;
     const daysDiff = timeDiff / (1000 * 3600 * 24);
-    console.log(user.activeRides)
     const handlePay=(e)=>{
       e.preventDefault()
-     
-        if(cardnum.length<16 || cvv.length<3 || year.length<2){
-          console.log("Hiii")
+        if(cardnum.length<16 || cardnum.length>16 || cvv.length<3 || cvv.length>3 || year.length<2 || year.length>2){
           toast({
             title: 'Wrong Details',
             description: "Please Enter Correct Card Detals.",
@@ -43,6 +42,7 @@ const BillingPage = () => {
           })
         }
         else{ 
+          setloading(true)
         axios.patch(`https://dark-jade-mite-robe.cyclic.app/cars/updatecar/${car._id}`,
         {dates:[...car.dates,dates]})
         .then((res)=>{
@@ -58,37 +58,51 @@ const BillingPage = () => {
             isClosable: true,
           })
         })
-        axios.patch(`https://dark-jade-mite-robe.cyclic.app/users/update/${user._id}`,
-        {activeRides:[...user.activeRides]})
+        axios.get(`https://dark-jade-mite-robe.cyclic.app/users/singleuser/${user._id}`)
         .then((res)=>{
-          console.log(res)
-          toast({
-            title: 'Payment Successfull',
-            description: "You Will Be Redirected To Home Page",
-            status: 'success',
-            duration: 3000,
-            isClosable: true,
+          axios.patch(`https://dark-jade-mite-robe.cyclic.app/users/update/${user._id}`,
+          {activeRides:[...res.data.user.activeRides,{start:dates.start,end:dates.end,car:car}]})
+          .then((res)=>{
+            setloading(false)
+            // console.log(res)
+            toast({
+              title: 'Payment Successfull',
+              description: "You are Redirected To Home Page",
+              status: 'success',
+              duration: 3000,
+              isClosable: true,
+            })
+            localStorage.removeItem('rentaridebillinginfo')
+            localStorage.removeItem('startenddates')
+            nav('/')
           })
-          localStorage.removeItem('rentaridebillinginfo')
-          localStorage.removeItem('startenddates')
-          nav('/')
+          .catch((err)=>{
+            console.log(err)
+            toast({
+              title: 'Server Error',
+              description: `${err}`,
+              status: 'error',
+              duration: 3000,
+              isClosable: true,
+            })
+          })
         })
         .catch((err)=>{
           console.log(err)
-          toast({
-            title: 'Server Error',
-            description: `${err}`,
-            status: 'error',
-            duration: 3000,
-            isClosable: true,
-          })
-        })
-         
+        }) 
         }
         
     }
   return (
-    <Grid templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(1, 1fr)", lg: "repeat(2, 1fr)" }} gap={4}>
+    <>
+    {loading ? <div style={{width:"auto",height:"500px",margin:"auto",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}><p><Spinner
+  thickness='4px'
+  speed='0.65s'
+  emptyColor='gray.200'
+  color='blue.500'
+  size='xl'
+  textAlign={"center"}
+/></p><p>Your Payment is Being Processed</p></div>:<Grid templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(1, 1fr)", lg: "repeat(2, 1fr)" }} gap={4}>
      <GridItem m={"5%"}>
      <Text fontSize={"large"} bg={"blue.800"} color={"white"} padding={"10px"} w={"100%"} textAlign={"start"} borderRadius={"10px"}>Booking Details</Text>
      <Flex direction={{ base: 'column', md: 'row' }} mb={"2%"}>
@@ -141,7 +155,7 @@ const BillingPage = () => {
     <Text fontWeight={"bold"} marginBottom={"10px"}>Start Date: {date1}</Text>
     <Text fontWeight={"bold"} marginBottom={"10px"}>End Date: {date2}</Text>
     <Text fontWeight={"bold"} marginBottom={"10px"}>Total Days: {Math.abs(Math.round(daysDiff))+1}</Text>
-    <Text fontWeight={"bold"} marginBottom={"10px"}>Total: {Math.abs(Math.round(daysDiff))+1}*₹ {car.pricePerDay}</Text>
+    <Text fontWeight={"bold"} marginBottom={"10px"}>Total: {Math.abs(Math.round(daysDiff))+1} X ₹ {car.pricePerDay}</Text>
     <Text fontWeight={"bold"} marginBottom={"10px"}>To Pay: ₹ {(Math.abs(Math.round(daysDiff))+1)*(car.pricePerDay)}</Text>
   </Box>
   </GridItem>
@@ -149,7 +163,7 @@ const BillingPage = () => {
     <Text fontSize={"large"} bg={"blue.800"} color={"white"} padding={"10px"} w={"100%"} textAlign={"start"} borderRadius={"10px"}>Enter Your Card Details Below & Click Pay</Text>
   <form className="credit-card">
   <div className="form-body">
-    <input type="text" className="card-number" required placeholder="Card Number" maxLength={16} style={{border:"1px solid black",padding:"1%",marginBottom:"3%"}} value={cardnum} onChange={(e)=>{setcardnum(e.target.value)}}/>
+    <input type="number" className="card-number" required placeholder="Card Number" maxLength={16} style={{border:"1px solid black",padding:"1%",marginBottom:"3%"}} value={cardnum} onChange={(e)=>{setcardnum(e.target.value)}}/>
     <div className="date-field" style={{marginBottom:"3%"}}>
       <div className="month">
         <select name="Month" style={{border:"1px solid black",padding:"1%",marginRight:"10px"}} value={month} onChange={(e)=>{setmonth(e.target.value)}}>
@@ -168,12 +182,12 @@ const BillingPage = () => {
           <option value="december">December</option>
         </select>
       </div>
-       <input placeholder='yy' style={{width:"10%",border:'1px solid black',paddingLeft:"1%"}} value={year} maxLength={2} onChange={(e)=>{setyear(e.target.value)}}/>
+       <input type='number' placeholder='yy' style={{width:"10%",border:'1px solid black',paddingLeft:"1%"}} value={year} maxLength={2} onChange={(e)=>{setyear(e.target.value)}}/>
        <p style={{fontSize:"x-small",marginLeft:'5px'}}>Expiry Date</p>
     </div>
     <div className="card-verification" >
       <div className="cvv-input">
-        <input type="text" placeholder="CVV" required style={{border:"1px solid black",padding:"1%",marginBottom:"3%"}} maxLength={3} value={cvv} onChange={(e)=>{setcvv(e.target.value)}}/>
+        <input type="number" placeholder="CVV" required style={{border:"1px solid black",padding:"1%",marginBottom:"3%"}} maxLength={3} value={cvv} onChange={(e)=>{setcvv(e.target.value)}}/>
       </div>
       <div className="cvv-details"  style={{fontSize:"x-small",marginBottom:"3%"}}>
         <p>3 digits usually found on the signature strip</p>
@@ -183,7 +197,8 @@ const BillingPage = () => {
   </div>
 </form>
   </GridItem>
-    </Grid>
+    </Grid>}
+   </>
   );
 };
 

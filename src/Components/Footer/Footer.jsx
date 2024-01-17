@@ -57,7 +57,7 @@ function Footer() {
           ))}
         </SimpleGrid>
       </Stack>
-      <SimpleGrid columns={{ base: 3, md: 5 }} gap="4" mt="10" ml={{ base: 0, md: 150 }}>
+      <SimpleGrid columns={{ base: 3, md: 5 }} gap="4" mt="10" >
         <Link href="#" fontSize="2xl" display={"flex"} justifyContent={"center"} _hover={{fontSize:"210%"}}>
           <FaFacebook />
         </Link>

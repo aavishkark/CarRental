@@ -167,6 +167,11 @@ else{
           {product.name}
         </Text>
         <Stack direction="row" spacing={2} mb={2}>
+        <Badge colorScheme="teal" fontSize="sm">
+            {product.city}
+          </Badge>
+        </Stack>
+        <Stack direction="row" spacing={2} mb={2}>
           <Badge colorScheme="teal" fontSize="sm">
             {product.type1}
           </Badge>
@@ -178,6 +183,9 @@ else{
           </Badge>
         </Stack>
         <Stack direction="row" spacing={2} mb={2}>
+        <Badge colorScheme="blue" fontSize="sm">
+            {product.type2}
+          </Badge>
         <Badge colorScheme="yellow" fontSize="sm">
         {product.rating}  <Icon as={StarIcon} color="yellow.400" boxSize={4} />
         </Badge>

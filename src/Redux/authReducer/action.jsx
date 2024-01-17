@@ -1,7 +1,8 @@
 import axios from "axios"
 import { POST_LOGIN_FAILURE, POST_LOGIN_REQ, POST_LOGIN_SUCCESS, POST_LOGOUT_REQ, SAVE_USER_DATA } from "./actionTypes"
-
+import { useToast } from '@chakra-ui/react'
 export const postLogin=(data)=>(dispatch)=>{
+ 
    dispatch({type:POST_LOGIN_REQ})
    return axios.post(`https://dark-jade-mite-robe.cyclic.app/users/login`,{
     email:data.email,
@@ -15,7 +16,8 @@ export const postLogin=(data)=>(dispatch)=>{
          localStorage.setItem('userid',res.data.user._id)
          localStorage.setItem('rentaridecity',res.data.user.city)
          dispatch(saveUserData({data}))
-        dispatch({type:POST_LOGIN_SUCCESS,payload:res.data.user})
+         dispatch({type:POST_LOGIN_SUCCESS,payload:res.data.user})
+        
     }
     else{
         localStorage.setItem('rentaride',false)
@@ -30,6 +32,7 @@ export const postLogin=(data)=>(dispatch)=>{
    })
 }
 export const postLogout=(data)=>(dispatch)=>{
+    const toast = useToast();
     localStorage.removeItem('user')
     localStorage.removeItem('rentaridecity')
     localStorage.removeItem('rentaridedate')
@@ -37,8 +40,16 @@ export const postLogout=(data)=>(dispatch)=>{
     localStorage.removeItem('rentaridestartdate')
     localStorage.removeItem('rentarideenddate')
     localStorage.removeItem('startenddates')
+    localStorage.removeItem('userid')
     localStorage.setItem('rentaride',false)
     dispatch({type:POST_LOGOUT_REQ})
+    toast({
+        title: 'Logout Successfull',
+        description: "You have logged out Sucessfully",
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      })
 }
 export const saveUserData=(data)=>(dispatch)=>{
      dispatch({type:SAVE_USER_DATA,payload:data})

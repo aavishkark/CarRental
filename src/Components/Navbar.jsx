@@ -98,45 +98,47 @@ const Navbar = () => {
         </Box>
       </Flex>
 
-      <Drawer placement={placement} onClose={onClose} isOpen={isOpen}>
+      <Drawer placement={placement} onClose={onClose} isOpen={isOpen} >
         <DrawerOverlay />
         <DrawerContent>
-          <DrawerHeader borderBottomWidth='1px'></DrawerHeader>
-          <DrawerBody>
-            <p><Link as={RouterLink} to="/" marginRight="2">
+          <DrawerHeader borderBottomWidth='1px' bg={"#004aad"}></DrawerHeader>
+          <DrawerBody bg={"#004aad"} color={"white"}>
+            <p><Link as={RouterLink} to="/" marginRight="2"  _hover={{textDecoration:"none",color: "teal.100",borderRadius:"5px"}}>
             Home
           </Link></p>
-            <p> <Link as={RouterLink} to="/likes" marginRight="2">
+            <p> <Link as={RouterLink} to="/likes" marginRight="2"  _hover={{textDecoration:"none",color: "teal.100",borderRadius:"5px"}}>
             Likes
           </Link></p>
-            <p> <Link as={RouterLink} to="/cars" marginRight="2">
+            <p> <Link as={RouterLink} to="/cars" marginRight="2"  _hover={{textDecoration:"none",color: "teal.100",borderRadius:"5px"}}>
             Cars
           </Link></p>
           <p>
-            
           {auth && (
-            <Box display={"flex"} justifyContent={"space-around"}>
               <Link
                 as={RouterLink}
                 to="/profile"
                 marginRight="2"
                 display="flex"
+                _hover={{textDecoration:"none",color: "teal.100",borderRadius:"5px"}}
               >
-                <AccountCircleIcon />
-                {`${user.username}`}
+                Profile
               </Link>
+          )}
+          </p>
+          <p>
+          {auth && (
               <Link
                 as={RouterLink}
                 to="/"
                 marginRight="2"
                 onClick={handleLogout}
+                _hover={{textDecoration:"none",color: "teal.100",borderRadius:"5px"}}
               >
                 Logout
               </Link>
-            </Box>
           )}
           {!auth && (
-            <Link as={RouterLink} to="/login" marginRight="2">
+            <Link as={RouterLink} to="/login" marginRight="2" _hover={{textDecoration:"none",color: "teal.100",borderRadius:"5px"}}>
               Log In
             </Link>
           )}

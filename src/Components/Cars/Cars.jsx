@@ -259,7 +259,7 @@ else{
                       <p className='card-text'>
                       <strong>Rating:</strong> {car.rating} <Icon as={StarIcon} color="yellow.400" boxSize={4} />
                       </p>
-                      <button className='btn btn-primary bookbtn' onClick={() => handleCardClick(car, currentIndex + index)}>Book</button>
+                      <button className='btn btn-primary bookbtn' onClick={() => handleCardClick(car, currentIndex + index)}>Details</button>
                       <button onClick={() =>handleLike(car)}><FavoriteIcon/></button>
                       
                     </div>
@@ -289,10 +289,13 @@ else{
                       <strong>Price:</strong> <Icon as={FaRupeeSign} color="green.500" boxSize={4} /> {car.pricePerDay}/Day
                       </p>
                       <p className='card-text'>
+                      <strong>Type:</strong> {car.type2}
+                      </p>
+                      <p className='card-text'>
                       <strong>Rating:</strong> {car.rating} <Icon as={StarIcon} color="yellow.400" boxSize={4} />
                       </p>
                       <div style={{display:"flex",justifyContent:"space-between",margin:"auto",width:"90%"}}>
-                      <button className='btn btn-primary bookbtn' onClick={() => handleCardClick(car, currentIndex + index)}>Book</button>
+                      <button className='btn btn-primary bookbtn' onClick={() => handleCardClick(car, currentIndex + index)}>Details</button>
                       <button onClick={() =>handleLike(car)}><FavoriteIcon/></button>
                       </div>
                     </div>

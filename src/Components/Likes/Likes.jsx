@@ -99,7 +99,7 @@ const Likes = () => {
   }
   return (
     <div style={{margin:"5%"}}>
-      {loading?<Box padding='6' boxShadow='lg' bg='white'>
+      {loading?<Box paddingTop={"10%"} paddingBottom={"10%"} boxShadow='lg' bg='white'>
   <SkeletonCircle size='10' />
   <SkeletonText mt='4' noOfLines={4} spacing='4' skeletonHeight='2' />
 </Box>: <div>
