@@ -31,11 +31,11 @@ const Likes = () => {
   const [selectedCar, setSelectedCar] = useState(null);
   useEffect(()=>{
   //  console.log(userid)
-    axios.get(`https://dark-jade-mite-robe.cyclic.app/users/singleuser/${userid}`)
+    axios.get(`https://electric-blue-kangaroo-shoe.cyclic.app/users/singleuser/${userid}`)
     .then((res)=>{
      // console.log(res,"useeffect",1)
       setfav(res.data.user.favourite)
-      axios.get(`https://dark-jade-mite-robe.cyclic.app/cars/getlikes`,{headers:{"hello":res.data.user.favourite}})
+      axios.get(`https://electric-blue-kangaroo-shoe.cyclic.app/cars/getlikes`,{headers:{"hello":res.data.user.favourite}})
       .then((res)=>{
        // console.log(res,"useEffect",2)
         setcars(res.data.cars)
@@ -66,11 +66,11 @@ const Likes = () => {
    })
    setfav(filteredlikes)
    if(filteredlikes.length!=0){
-    axios.patch(`https://dark-jade-mite-robe.cyclic.app/users/update/${user._id}`,
+    axios.patch(`https://electric-blue-kangaroo-shoe.cyclic.app/users/update/${user._id}`,
     {favourite:filteredlikes})
     .then((res)=>{
     //  console.log(res,filteredlikes,"remove")
-      axios.get(`https://dark-jade-mite-robe.cyclic.app/cars/getlikes`,{headers:{"hello":res.data.user.favourite}})
+      axios.get(`https://electric-blue-kangaroo-shoe.cyclic.app/cars/getlikes`,{headers:{"hello":res.data.user.favourite}})
       .then((res)=>{
        // console.log(res,3)
         setcars(res.data.cars)
@@ -86,7 +86,7 @@ const Likes = () => {
    })
    }
    else{
-    axios.patch(`https://dark-jade-mite-robe.cyclic.app/users/update/${user._id}`,
+    axios.patch(`https://electric-blue-kangaroo-shoe.cyclic.app/users/update/${user._id}`,
     {favourite:filteredlikes})
     .then((res)=>{
      // console.log(res,filteredlikes,"remove")

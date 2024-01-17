@@ -49,7 +49,7 @@ export default function SignUp() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    axios.post(`https://dark-jade-mite-robe.cyclic.app/users/register`,{
+    axios.post(`https://electric-blue-kangaroo-shoe.cyclic.app/users/register`,{
       email: data.get('email'),
       password: data.get('password'),
       username:data.get('username'),

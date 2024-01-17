@@ -43,7 +43,7 @@ const BillingPage = () => {
         }
         else{ 
           setloading(true)
-        axios.patch(`https://dark-jade-mite-robe.cyclic.app/cars/updatecar/${car._id}`,
+        axios.patch(`https://electric-blue-kangaroo-shoe.cyclic.app/cars/updatecar/${car._id}`,
         {dates:[...car.dates,dates]})
         .then((res)=>{
         // console.log(res)
@@ -58,9 +58,9 @@ const BillingPage = () => {
             isClosable: true,
           })
         })
-        axios.get(`https://dark-jade-mite-robe.cyclic.app/users/singleuser/${user._id}`)
+        axios.get(`https://electric-blue-kangaroo-shoe.cyclic.app/users/singleuser/${user._id}`)
         .then((res)=>{
-          axios.patch(`https://dark-jade-mite-robe.cyclic.app/users/update/${user._id}`,
+          axios.patch(`https://electric-blue-kangaroo-shoe.cyclic.app/users/update/${user._id}`,
           {activeRides:[...res.data.user.activeRides,{start:dates.start,end:dates.end,car:car}]})
           .then((res)=>{
             setloading(false)

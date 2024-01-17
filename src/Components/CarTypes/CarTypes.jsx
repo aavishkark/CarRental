@@ -44,7 +44,7 @@ const CarTypes = () => {
     const dispatch=useDispatch()
     useEffect(() => {
       dispatch({type:GET_CARS_REQ})
-      axios.get(`https://dark-jade-mite-robe.cyclic.app/cars/allcars`)
+      axios.get(`https://electric-blue-kangaroo-shoe.cyclic.app/cars/allcars`)
       .then((res)=>{
         const labledcars=res.data.Cars.filter((e)=>{
           return e.type2===selectedLabel
