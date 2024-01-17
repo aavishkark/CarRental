@@ -5,7 +5,8 @@ Rent a Ride, your premier car booking platform, extends its services to the top 
 ## Deployment
 
 
-[Vercel Deployed Link:  Clickit]([https://dainty-snake-6499.vercel.app/](https://car-rental-8m1w5q2dj-aavishkark-gmailcom.vercel.app/))
+[FrontEnd Deployed Link](https://car-rental-8m1w5q2dj-aavishkark-gmailcom.vercel.app/)
+[BackEnd Deployed Link](https://dark-jade-mite-robe.cyclic.app/)
 
 
 
@@ -48,25 +49,22 @@ User Features :
 ## Project Screenshots
 
 - Landing Page
-<img src="https://github.com/Sushree-01/dainty-snake-6499/blob/main/Screenshots/Landing%20Page.PNG"  width="600" >
+<img src="https://ibb.co/k4qp1DY"  width="600" >
 
-- Product Page
-<img src="https://github.com/Sushree-01/dainty-snake-6499/blob/main/Screenshots/Product%20Page(Store%20page).PNG"  width="600" >
-
-- Pagination
-<img src="https://github.com/Sushree-01/dainty-snake-6499/blob/main/Screenshots/Pagination%20Feature.PNG"  width="600" >
+- Cars Page
+<img src="https://ibb.co/1Ksshvm"  width="600" >
 
 - Signup Page
-<img src="https://github.com/Sushree-01/dainty-snake-6499/blob/main/Screenshots/Signup%20page.PNG"  width="600" >
+<img src="https://ibb.co/WB1QnjP"  width="600" >
 
-- Login Page
-<img src="https://github.com/Sushree-01/dainty-snake-6499/blob/main/Screenshots/Login%20page.PNG"  width="600" >
+- SignIn Page
+<img src="https://ibb.co/Q98ky5V"  width="600" >
 
-- Cart Page
-<img src="https://github.com/Sushree-01/dainty-snake-6499/blob/main/Screenshots/Cart%20page.PNG"  width="600" >
+- Likes Page
+<img src="https://ibb.co/SyTGF0Z"  width="600" >
 
-- Verification Feature
-<img src="https://github.com/Sushree-01/dainty-snake-6499/blob/main/Screenshots/Account%20Verification%20System.PNG"  width="600" >
+- Profile Page
+<img src="https://ibb.co/ByZBcBj"  width="600" >
 
 
 ## Contributors
