@@ -5,8 +5,8 @@ Rent a Ride, your premier car booking platform, extends its services to the top 
 ## Deployment
 
 
-[FrontEnd Deployed Link](https://car-rental-8m1w5q2dj-aavishkark-gmailcom.vercel.app/)
-[BackEnd Deployed Link](https://dark-jade-mite-robe.cyclic.app/)
+-[FrontEnd Deployed Link](https://car-rental-8m1w5q2dj-aavishkark-gmailcom.vercel.app/)
+-[BackEnd Deployed Link](https://dark-jade-mite-robe.cyclic.app/)
 
 
 
@@ -31,13 +31,13 @@ Rent a Ride, your premier car booking platform, extends its services to the top 
 
 ## Features
 
-User Features :
+Features :
 - Landing Page
 - Cars page
 - Favourites page
 - Profile Page
 - Pagination
-- Filter cars by type and 
+- Filter cars by type
 - Sorting cars by price
 - User Registration and Login
 - Add to Favourites
@@ -67,5 +67,5 @@ User Features :
 <img src="https://i.ibb.co/0CMrmrZ/profilepage.png"  width="600" >
 
 
-## Contributors
+## Contributor
 - [Avishkar kamble](https://github.com/aavishkark)
