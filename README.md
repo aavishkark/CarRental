@@ -1,73 +1,70 @@
-# RentaRide
-Rent a Ride, your premier car booking platform, extends its services to the top 10 cities across India. Our mission is to redefine the car booking experience by offering a user-friendly interface and a seamlessly smooth process. With a commitment to excellence, we aspire to provide our users with the best-in-class service, ensuring their journey with Rent a Ride is nothing short of exceptional
+# Getting Started with Create React App
 
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Deployment
+## Available Scripts
 
+In the project directory, you can run:
 
-[Vercel Deployed Link:  Clickit]([https://dainty-snake-6499.vercel.app/](https://car-rental-8m1w5q2dj-aavishkark-gmailcom.vercel.app/))
+### `npm start`
 
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
+The page will reload when you make changes.\
+You may also see any lint errors in the console.
 
-## Tech Stack
+### `npm test`
 
-**Front-End:** <p >
-    <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" alt="html5" />
-    <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" alt="css3" /> 
-    <img src="https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E" alt="javascript" />
-    <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="reactjs" />
-    <img src="https://img.shields.io/badge/Chakra%20UI-3bc7bd?style=for-the-badge&logo=chakraui&logoColor=white" alt="chakra-ui" />
-    <img src="https://img.shields.io/badge/Redux-593D88?style=for-the-badge&logo=redux&logoColor=white" alt="redux" /> 
-</p>
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-**Back-End:** 
-<p>
-   <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" alt="nodejs" />
-    <img src="https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white" alt="expressjs" />
-    <img src="https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white" alt="mongodb" />
-</p>
+### `npm run build`
 
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-## Features
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
-User Features :
-- Landing Page
-- Cars page
-- Favourites page
-- Profile Page
-- Pagination
-- Filter cars by type and 
-- Sorting cars by price
-- User Registration and Login
-- Add to Favourites
-- Checkout/Payment page
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
- 
- 
+### `npm run eject`
 
-## Project Screenshots
+**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-- Landing Page
-<img src="https://github.com/Sushree-01/dainty-snake-6499/blob/main/Screenshots/Landing%20Page.PNG"  width="600" >
+If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-- Product Page
-<img src="https://github.com/Sushree-01/dainty-snake-6499/blob/main/Screenshots/Product%20Page(Store%20page).PNG"  width="600" >
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-- Pagination
-<img src="https://github.com/Sushree-01/dainty-snake-6499/blob/main/Screenshots/Pagination%20Feature.PNG"  width="600" >
+You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-- Signup Page
-<img src="https://github.com/Sushree-01/dainty-snake-6499/blob/main/Screenshots/Signup%20page.PNG"  width="600" >
+## Learn More
 
-- Login Page
-<img src="https://github.com/Sushree-01/dainty-snake-6499/blob/main/Screenshots/Login%20page.PNG"  width="600" >
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-- Cart Page
-<img src="https://github.com/Sushree-01/dainty-snake-6499/blob/main/Screenshots/Cart%20page.PNG"  width="600" >
+To learn React, check out the [React documentation](https://reactjs.org/).
 
-- Verification Feature
-<img src="https://github.com/Sushree-01/dainty-snake-6499/blob/main/Screenshots/Account%20Verification%20System.PNG"  width="600" >
+### Code Splitting
 
+This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-## Contributors
-- [Avishkar kamble](https://github.com/aavishkark)
+### Analyzing the Bundle Size
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+
+### Making a Progressive Web App
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+
+### Advanced Configuration
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+
+### Deployment
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+
+### `npm run build` fails to minify
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
