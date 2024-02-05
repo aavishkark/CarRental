@@ -29,7 +29,7 @@ const Profile = () => {
     const [dates,setdates]=useState([])
     const [past,setpast]=useState([])
     useEffect(()=>{
-        axios.get(`https://electric-blue-kangaroo-shoe.cyclic.app/users/singleuser/${user._id}`)
+        axios.get(`https://charming-deer-sari.cyclic.app/users/singleuser/${user._id}`)
         .then((res)=>{
           let activecars=[]
           let activedates=[]
@@ -45,7 +45,7 @@ const Profile = () => {
           setdates(activedates)
           setactives(activecars)
         if(res.data.user.favourite.length>0){
-      axios.get(`https://electric-blue-kangaroo-shoe.cyclic.app/cars/getlikes`,
+      axios.get(`https://charming-deer-sari.cyclic.app/cars/getlikes`,
         {headers:{"hello":res.data.user.favourite}})
         .then((res)=>{
           console.log(res.data)
@@ -71,7 +71,7 @@ const Profile = () => {
           filteredrides.push(e)
         }
       })
-      axios.patch(`https://electric-blue-kangaroo-shoe.cyclic.app/users/update/${user._id}`,
+      axios.patch(`https://charming-deer-sari.cyclic.app/users/update/${user._id}`,
       {activeRides:filteredrides})
       .then((res)=>{
         toast({

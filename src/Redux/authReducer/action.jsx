@@ -3,7 +3,7 @@ import { POST_LOGIN_FAILURE, POST_LOGIN_REQ, POST_LOGIN_SUCCESS, POST_LOGOUT_REQ
 export const postLogin=(data)=>(dispatch)=>{
  
    dispatch({type:POST_LOGIN_REQ})
-   return axios.post(`https://electric-blue-kangaroo-shoe.cyclic.app/users/login`,{
+   return axios.post(`https://charming-deer-sari.cyclic.app/users/login`,{
     email:data.email,
     password:data.password
    })
@@ -47,7 +47,7 @@ export const saveUserData=(data)=>(dispatch)=>{
 }
 export const getUserData=(data)=>(dispatch)=>{
     const userid=localStorage.getItem('userid')
-    axios.get(`https://electric-blue-kangaroo-shoe.cyclic.app/users/${userid}`)
+    axios.get(`https://charming-deer-sari.cyclic.app/users/${userid}`)
    .then((res)=>{
    // console.log(res)
    })
