@@ -33,7 +33,7 @@ const CarCarousal = () => {
     const isLoading=useSelector((store)=>{return store.carsReducer.isLoading})
     
     useEffect(()=>{
-      axios.get(`https://charming-deer-sari.cyclic.app/cars/allcars`)
+      axios.get(`https://carrentalbe-4lpr.onrender.com/cars/allcars`)
       .then((res)=>{
         const paginatedArray = res.data.Cars.slice(from,from+3);
         settotalcars(paginatedArray)
