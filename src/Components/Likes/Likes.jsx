@@ -31,13 +31,11 @@ const Likes = () => {
   const [selectedCar, setSelectedCar] = useState(null);
   useEffect(()=>{
   //  console.log(userid)
-    axios.get(`https://charming-deer-sari.cyclic.app/users/singleuser/${userid}`)
+    axios.get(`https://carrentalbe-production-0103.up.railway.app/users/singleuser/${userid}`)
     .then((res)=>{
-     // console.log(res,"useeffect",1)
       setfav(res.data.user.favourite)
-      axios.get(`https://charming-deer-sari.cyclic.app/cars/getlikes`,{headers:{"hello":res.data.user.favourite}})
+      axios.get(`https://carrentalbe-production-0103.up.railway.app/cars/getlikes`,{headers:{"hello":res.data.user.favourite}})
       .then((res)=>{
-       // console.log(res,"useEffect",2)
         setcars(res.data.cars)
      })
      .catch((err)=>{
@@ -66,13 +64,11 @@ const Likes = () => {
    })
    setfav(filteredlikes)
    if(filteredlikes.length!=0){
-    axios.patch(`https://charming-deer-sari.cyclic.app/users/update/${user._id}`,
+    axios.patch(`https://carrentalbe-production-0103.up.railway.app/users/update/${user._id}`,
     {favourite:filteredlikes})
     .then((res)=>{
-    //  console.log(res,filteredlikes,"remove")
-      axios.get(`https://charming-deer-sari.cyclic.app/cars/getlikes`,{headers:{"hello":res.data.user.favourite}})
+      axios.get(`https://carrentalbe-production-0103.up.railway.app/cars/getlikes`,{headers:{"hello":res.data.user.favourite}})
       .then((res)=>{
-       // console.log(res,3)
         setcars(res.data.cars)
      })
      .catch((err)=>{
@@ -86,10 +82,9 @@ const Likes = () => {
    })
    }
    else{
-    axios.patch(`https://charming-deer-sari.cyclic.app/users/update/${user._id}`,
+    axios.patch(`https://carrentalbe-production-0103.up.railway.app/users/update/${user._id}`,
     {favourite:filteredlikes})
     .then((res)=>{
-     // console.log(res,filteredlikes,"remove")
    })
    .catch((err)=>{
     console.log(err)

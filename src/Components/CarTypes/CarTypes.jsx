@@ -44,7 +44,7 @@ const CarTypes = () => {
     const dispatch=useDispatch()
     useEffect(() => {
       dispatch({type:GET_CARS_REQ})
-      axios.get(`https://carrentalbe-4lpr.onrender.com/cars/allcars`)
+      axios.get(`https://carrentalbe-production-0103.up.railway.app/cars/allcars`)
       .then((res)=>{
         const labledcars=res.data.Cars.filter((e)=>{
           return e.type2===selectedLabel
