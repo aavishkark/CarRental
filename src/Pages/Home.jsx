@@ -15,7 +15,7 @@ const Home = () => {
   const user=JSON.parse(localStorage.getItem('user'))
   useEffect(() => {
     if(user){
-      axios.get(`https://carrentalbe-production-0103.up.railway.app/singleuser/${user._id}`)
+      axios.get(`https://carrentalbe-1.onrender.com/singleuser/${user._id}`)
     .then((res)=>{
       const pastrides=[...res.data.user.pastRides]
       const activerides=[]
@@ -33,7 +33,7 @@ const Home = () => {
         }
       })
       if(activerides.length>0 || pastrides.length>0){
-        axios.patch(`https://carrentalbe-production-0103.up.railway.app/users/update/${user._id}`,
+        axios.patch(`https://carrentalbe-1.onrender.com/users/update/${user._id}`,
       {activeRides:activerides,pastRides:pastrides})
       .then((res)=>{
         // console.log(res)
@@ -48,7 +48,7 @@ const Home = () => {
       console.log(err)
     })
     }
-     axios.get(`https://carrentalbe-production-0103.up.railway.app/cars/allcars`)
+     axios.get(`https://carrentalbe-1.onrender.com/cars/allcars`)
      .then((res)=>{
       // console.log(res)
       res.data.Cars.forEach((e)=>{
@@ -64,7 +64,7 @@ const Home = () => {
           }
           
         })
-        axios.patch(`https://carrentalbe-production-0103.up.railway.app/cars/updatecar/${e._id}`,
+        axios.patch(`https://carrentalbe-1.onrender.com/cars/updatecar/${e._id}`,
             {dates:newdates})
             .then((res)=>{
             //  console.log(res)

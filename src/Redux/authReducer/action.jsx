@@ -47,7 +47,7 @@ export const saveUserData=(data)=>(dispatch)=>{
 }
 export const getUserData=(data)=>(dispatch)=>{
     const userid=localStorage.getItem('userid')
-    axios.get(`https://carrentalbe-production-0103.up.railway.app/users/${userid}`)
+    axios.get(`https://carrentalbe-1.onrender.com/users/${userid}`)
    .then((res)=>{
    // console.log(res)
    })

@@ -31,10 +31,10 @@ const Likes = () => {
   const [selectedCar, setSelectedCar] = useState(null);
   useEffect(()=>{
   //  console.log(userid)
-    axios.get(`https://carrentalbe-production-0103.up.railway.app/users/singleuser/${userid}`)
+    axios.get(`https://carrentalbe-1.onrender.com/users/singleuser/${userid}`)
     .then((res)=>{
       setfav(res.data.user.favourite)
-      axios.get(`https://carrentalbe-production-0103.up.railway.app/cars/getlikes`,{headers:{"hello":res.data.user.favourite}})
+      axios.get(`https://carrentalbe-1.onrender.com/cars/getlikes`,{headers:{"hello":res.data.user.favourite}})
       .then((res)=>{
         setcars(res.data.cars)
      })
@@ -64,10 +64,10 @@ const Likes = () => {
    })
    setfav(filteredlikes)
    if(filteredlikes.length!=0){
-    axios.patch(`https://carrentalbe-production-0103.up.railway.app/users/update/${user._id}`,
+    axios.patch(`https://carrentalbe-1.onrender.com/users/update/${user._id}`,
     {favourite:filteredlikes})
     .then((res)=>{
-      axios.get(`https://carrentalbe-production-0103.up.railway.app/cars/getlikes`,{headers:{"hello":res.data.user.favourite}})
+      axios.get(`https://carrentalbe-1.onrender.com/cars/getlikes`,{headers:{"hello":res.data.user.favourite}})
       .then((res)=>{
         setcars(res.data.cars)
      })
@@ -82,7 +82,7 @@ const Likes = () => {
    })
    }
    else{
-    axios.patch(`https://carrentalbe-production-0103.up.railway.app/users/update/${user._id}`,
+    axios.patch(`https://carrentalbe-1.onrender.com/users/update/${user._id}`,
     {favourite:filteredlikes})
     .then((res)=>{
    })

@@ -43,7 +43,7 @@ const BillingPage = () => {
         }
         else{ 
           setloading(true)
-        axios.patch(`https://carrentalbe-production-0103.up.railway.app/updatecar/${car._id}`,
+        axios.patch(`https://carrentalbe-1.onrender.com/updatecar/${car._id}`,
         {dates:[...car.dates,dates]})
         .then((res)=>{
         // console.log(res)
@@ -58,9 +58,9 @@ const BillingPage = () => {
             isClosable: true,
           })
         })
-        axios.get(`https://carrentalbe-production-0103.up.railway.app/users/singleuser/${user._id}`)
+        axios.get(`https://carrentalbe-1.onrender.com/users/singleuser/${user._id}`)
         .then((res)=>{
-          axios.patch(`https://carrentalbe-production-0103.up.railway.app/users/update/${user._id}`,
+          axios.patch(`https://carrentalbe-1.onrender.com/users/update/${user._id}`,
           {activeRides:[...res.data.user.activeRides,{start:dates.start,end:dates.end,car:car}]})
           .then((res)=>{
             setloading(false)

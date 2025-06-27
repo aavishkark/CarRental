@@ -49,7 +49,7 @@ export default function SignUp() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    axios.post(`https://carrentalbe-production-0103.up.railway.app/users/register`,{
+    axios.post(`https://carrentalbe-1.onrender.com/users/register`,{
       email: data.get('email'),
       password: data.get('password'),
       username:data.get('username'),
