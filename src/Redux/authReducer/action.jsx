@@ -3,7 +3,7 @@ import { POST_LOGIN_FAILURE, POST_LOGIN_REQ, POST_LOGIN_SUCCESS, POST_LOGOUT_REQ
 export const postLogin=(data)=>(dispatch)=>{
  
    dispatch({type:POST_LOGIN_REQ})
-   return axios.post(`https://carrentalbe-production-0103.up.railway.app/users/login`,{
+   return axios.post(`https://carrentalbe-1.onrender.com/users/login`,{
     email:data.email,
     password:data.password
    })
