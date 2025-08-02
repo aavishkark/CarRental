@@ -1,5 +1,5 @@
 # RentaRide
-Rent a Ride, your premier car booking platform, extends its services to the top 10 cities across India. Our mission is to redefine the car booking experience by offering a user-friendly interface and a seamlessly smooth process. With a commitment to excellence, we aspire to provide our users with the best-in-class service, ensuring their journey with Rent a Ride is nothing short of exceptional
+Rent a Ride, your premier car booking platform, extends its services to the top 10 cities across India. Our mission is to redefine the car booking experience by offering a user-friendly interface and a seamlessly smooth process.
 
 
 ## Deployment
